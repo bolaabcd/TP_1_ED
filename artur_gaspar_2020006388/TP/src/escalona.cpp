@@ -54,4 +54,37 @@ void Escalonador::executar_comando(Comando com)
 Escalonador::~Escalonador()
 {
     this->arq_saida.close();
+    this->limpa_tudo();
+}
+
+void Escalonador::add_url(std::string url)
+{
+}
+
+void Escalonador::escalona_tudo()
+{
+}
+
+void Escalonador::escalona(int quantidade)
+{
+}
+
+void Escalonador::escalona_host(std::string host, int quantidade)
+{
+}
+
+void Escalonador::ver_host(std::string host)
+{
+}
+
+void Escalonador::lista_hosts()
+{
+}
+
+void Escalonador::limpa_host(std::string host)
+{
+}
+
+void Escalonador::limpa_tudo()
+{
 }
