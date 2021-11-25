@@ -10,6 +10,7 @@
 #include <string>
 #include <fstream>
 #include "comando.h"
+#include "fila.h"
 
 class Escalonador {
     public:
@@ -18,14 +19,15 @@ class Escalonador {
         ~Escalonador();
     private:
         std::ofstream arq_saida;
+        Fila fila;
 
         void add_url(std::string url);
         void escalona_tudo();
-        void escalona();
-        void escalona_host();
-        void ver_host();
+        void escalona(int quantidade);
+        void escalona_host(std::string host, int quantidade);
+        void ver_host(std::string host);
         void lista_hosts();
-        void limpa_host();
+        void limpa_host(std::string host);
         void limpa_tudo();
 
 };
