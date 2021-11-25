@@ -1,3 +1,9 @@
+//---------------------------------------------------------------------
+// Arquivo      : comando.h
+// Conteudo     : definicoes do tipo Comando
+// Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
+//---------------------------------------------------------------------
+
 #ifndef COMANDO
 #define COMANDO
 

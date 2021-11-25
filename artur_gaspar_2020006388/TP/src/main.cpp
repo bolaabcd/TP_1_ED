@@ -1,3 +1,10 @@
+//---------------------------------------------------------------------
+// Arquivo      : main.cpp
+// Conteudo     : implementacao do programa escalonador
+// Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
+//---------------------------------------------------------------------
+
+
 #include <iostream>
 #include <fstream>
 #include "msgassert.h"

@@ -1,3 +1,12 @@
+//---------------------------------------------------------------------
+// Arquivo      : escalona.h
+// Conteudo     : definicoes do tipo Escalonador
+// Autor        : Artur Gaspar da Silva. (artur.gaspar@dcc.ufmg.br)
+//---------------------------------------------------------------------
+
+#ifndef ESCALONA
+#define ESCALONA
+
 #include <string>
 
 class Escalonador {
@@ -14,3 +23,5 @@ class Escalonador {
     private:
 
 };
+
+#endif
