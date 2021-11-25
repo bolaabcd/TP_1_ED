@@ -15,6 +15,7 @@ class Comando{
     public:
         Comando(){};
         int get_id();
+        std::string get_host();
         bool more_urls();
         std::string get_url();
         int get_quantidade();
@@ -23,9 +24,9 @@ class Comando{
     private:
         int id_comando;
         std::string host;
-        int quantidade;
-        int atual;
         std::string* urls;
+        int quantidade;
+        int atual_url_pos;
 };
 
 

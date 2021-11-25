@@ -13,14 +13,19 @@ int Comando::get_id()
     return this->id_comando;
 }
 
+std::string Comando::get_host()
+{
+    return this->host;
+}
+
 bool Comando::more_urls()
 {
-    return this->atual < this->quantidade;
+    return this->atual_url_pos < this->quantidade;
 }
 
 std::string Comando::get_url()
 {
-    return this->urls[this->atual++];
+    return this->urls[this->atual_url_pos++];
 }
 
 int Comando::get_quantidade()
@@ -62,7 +67,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
         for (int i = 0; i < com.quantidade; i++) {
             is >> com.urls[i];
         }
-        com.atual = 0;
+        com.atual_url_pos = 0;
         break;
     case 2: // escalona
         is >> com.quantidade;
