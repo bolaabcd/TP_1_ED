@@ -49,6 +49,7 @@ int main(int argc, char** argv) {
     Comando com;
     while(arq_entrada >> com){
         escal.executar_comando(com);
+        com.~Comando();
     }
 
     arq_entrada.close();

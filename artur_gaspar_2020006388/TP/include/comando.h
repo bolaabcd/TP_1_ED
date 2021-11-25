@@ -15,11 +15,16 @@ class Comando{
     public:
         Comando();
         int get_id();
+        bool more_urls();
+        std::string get_url();
         friend std::istream& operator >> (std::istream& is, Comando& com);
+        ~Comando();
     private:
         int id_comando;
         std::string host;
         int quantidade;
+        int atual;
+        std::string* urls;
 };
 
 
