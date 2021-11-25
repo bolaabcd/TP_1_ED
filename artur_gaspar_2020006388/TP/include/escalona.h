@@ -8,10 +8,13 @@
 #define ESCALONA
 
 #include <string>
+#include "comando.h"
 
 class Escalonador {
     public:
-        Escalonador();
+        Escalonador(std::string arquivo_saida);
+        void executar_comando(Comando com);
+    private:
         void add_url(std::string url);
         void escalona_tudo();
         void escalona();
@@ -20,7 +23,6 @@ class Escalonador {
         void lista_hosts();
         void limpa_host();
         void limpa_tudo();
-    private:
 
 };
 

@@ -45,10 +45,10 @@ int main(int argc, char** argv) {
     // arq_saida.open(nome_saida,std::ofstream::out);
     // erroAssert(arq_saida.good(),"Nao foi possivel abrir o arquivo de saida!");
 
-    Escalonador escal;
-    Comando com(nome_saida);
+    Escalonador escal(nome_saida);
+    Comando com;
     while(arq_entrada >> com){
-        com.executar();
+        escal.executar_comando(com);
     }
 
     arq_entrada.close();

@@ -13,8 +13,7 @@
 
 class Comando{
     public:
-        Comando(std::string arq_saida);
-        void executar();
+        Comando();
         friend std::istream& operator >> (std::istream& is, Comando& com);
 
     private:
