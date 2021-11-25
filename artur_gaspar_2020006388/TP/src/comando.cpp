@@ -8,6 +8,26 @@
 #include <string>
 #include <iostream>
 
+int Comando::get_id()
+{
+    return this->id_comando;
+}
+
+bool Comando::more_urls()
+{
+    return this->atual < this->quantidade;
+}
+
+std::string Comando::get_url()
+{
+    return this->urls[this->atual++];
+}
+
+int Comando::get_quantidade()
+{
+    return this->quantidade;
+}
+
 std::istream &operator>>(std::istream &is, Comando &com)
 {
     std::string nome_comando;
@@ -64,20 +84,6 @@ std::istream &operator>>(std::istream &is, Comando &com)
     return is;
 }
 
-int Comando::get_id()
-{
-    return this->id_comando;
-}
-
-bool Comando::more_urls()
-{
-    return this->atual < this->quantidade;
-}
-
-std::string Comando::get_url()
-{
-    return this->urls[this->atual++];
-}
 
 Comando::~Comando(){
     free(this->urls);

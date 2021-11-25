@@ -13,10 +13,11 @@
 
 class Comando{
     public:
-        Comando();
+        Comando(){};
         int get_id();
         bool more_urls();
         std::string get_url();
+        int get_quantidade();
         friend std::istream& operator >> (std::istream& is, Comando& com);
         ~Comando();
     private:
