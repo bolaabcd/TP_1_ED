@@ -8,13 +8,17 @@
 #define ESCALONA
 
 #include <string>
+#include <fstream>
 #include "comando.h"
 
 class Escalonador {
     public:
-        Escalonador(std::string arquivo_saida);
+        Escalonador(std::string nome_saida);
         void executar_comando(Comando com);
+        ~Escalonador();
     private:
+        std::ofstream arq_saida;
+
         void add_url(std::string url);
         void escalona_tudo();
         void escalona();
