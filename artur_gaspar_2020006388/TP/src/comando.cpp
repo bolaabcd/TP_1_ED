@@ -8,37 +8,47 @@
 #include <string>
 #include <iostream>
 
-std::istream& operator >> (std::istream& is, Comando& com){
+std::istream &operator>>(std::istream &is, Comando &com)
+{
     std::string nome_comando;
     is >> nome_comando;
-    if (nome_comando == "ADD_URLS")           com.id_comando = 0;
-    else if (nome_comando == "ESCALONA_TUDO") com.id_comando = 1;
-    else if (nome_comando == "ESCALONA")      com.id_comando = 2;  
-    else if (nome_comando == "ESCALONA_HOST") com.id_comando = 3;
-    else if (nome_comando == "VER_HOST")      com.id_comando = 4;
-    else if (nome_comando == "LISTA_HOSTS:")  com.id_comando = 5;
-    else if (nome_comando == "LIMPA_HOST")    com.id_comando = 6;
-    else if (nome_comando == "LIMPA_TUDO")    com.id_comando = 7;
-    else{
+    if (nome_comando == "ADD_URLS")
+        com.id_comando = 0;
+    else if (nome_comando == "ESCALONA_TUDO")
+        com.id_comando = 1;
+    else if (nome_comando == "ESCALONA")
+        com.id_comando = 2;
+    else if (nome_comando == "ESCALONA_HOST")
+        com.id_comando = 3;
+    else if (nome_comando == "VER_HOST")
+        com.id_comando = 4;
+    else if (nome_comando == "LISTA_HOSTS:")
+        com.id_comando = 5;
+    else if (nome_comando == "LIMPA_HOST")
+        com.id_comando = 6;
+    else if (nome_comando == "LIMPA_TUDO")
+        com.id_comando = 7;
+    else
+    {
         std::cerr << "Comando invalido: " << nome_comando << std::endl;
         abort();
     }
-    
+
     switch (com.id_comando)
     {
-    case 0:
+    case 0: // add_urls
         is >> com.quantidade;
         break;
-    case 2:
+    case 2: // escalona
         is >> com.quantidade;
         break;
-    case 3:
+    case 3: // escalona_host
         is >> com.host >> com.quantidade;
         break;
-    case 4:
+    case 4: // ver_host
         is >> com.host;
         break;
-    case 6:
+    case 6: // limpa_host
         is >> com.host;
         break;
     default:
@@ -49,6 +59,7 @@ std::istream& operator >> (std::istream& is, Comando& com){
     return is;
 }
 
-int Comando::get_id(){
+int Comando::get_id()
+{
     return this->id_comando;
 }
