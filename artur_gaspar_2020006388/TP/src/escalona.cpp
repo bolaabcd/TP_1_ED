@@ -19,7 +19,8 @@ void Escalonador::executar_comando(Comando com)
     switch (com.get_id())
     {
     case 0: // add_urls
-        while(com.more_urls()) {
+        while (com.more_urls())
+        {
             this->add_url(com.get_url());
         }
         break;

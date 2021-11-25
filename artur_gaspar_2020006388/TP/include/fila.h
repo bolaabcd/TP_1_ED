@@ -7,12 +7,12 @@
 #ifndef FILA
 #define FILA
 
-class Fila {
-    public:
-        Fila();
-    private:
+class Fila
+{
+public:
+    Fila();
 
+private:
 };
-
 
 #endif

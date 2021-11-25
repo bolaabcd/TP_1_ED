@@ -63,8 +63,9 @@ std::istream &operator>>(std::istream &is, Comando &com)
     {
     case 0: // add_urls
         is >> com.quantidade;
-        com.urls = (std::string*) malloc(com.quantidade * sizeof(std::string));
-        for (int i = 0; i < com.quantidade; i++) {
+        com.urls = (std::string *)malloc(com.quantidade * sizeof(std::string));
+        for (int i = 0; i < com.quantidade; i++)
+        {
             is >> com.urls[i];
         }
         com.atual_url_pos = 0;
@@ -89,7 +90,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
     return is;
 }
 
-
-Comando::~Comando(){
+Comando::~Comando()
+{
     free(this->urls);
 }
