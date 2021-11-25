@@ -14,8 +14,8 @@
 class Comando{
     public:
         Comando();
+        int get_id();
         friend std::istream& operator >> (std::istream& is, Comando& com);
-
     private:
         int id_comando;
         std::string host;

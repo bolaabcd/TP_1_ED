@@ -48,3 +48,7 @@ std::istream& operator >> (std::istream& is, Comando& com){
 
     return is;
 }
+
+int Comando::get_id(){
+    return this->id_comando;
+}
