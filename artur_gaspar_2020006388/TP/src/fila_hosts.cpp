@@ -92,7 +92,7 @@ void Fila_Hosts::remove_host(std::string host_string)
 
 bool Fila_Hosts::vazia()
 {
-    return this->tamanho > 0;
+    return this->tamanho == 0;
 }
 
 void Fila_Hosts::clear()
