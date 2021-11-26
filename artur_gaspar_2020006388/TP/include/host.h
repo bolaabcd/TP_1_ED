@@ -24,6 +24,7 @@ public:
     URL_Node* get_first_url();
     void remove_first_url();
     bool vazio();
+    void limpar();
 private:
     
 };

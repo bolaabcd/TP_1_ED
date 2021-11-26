@@ -16,6 +16,7 @@ public:
     Host_Node(Host host);
     Host host;
     Host_Node* proximo;
+    ~Host_Node();
 };
 
 class Fila_Hosts

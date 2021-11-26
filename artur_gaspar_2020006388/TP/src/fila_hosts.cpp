@@ -11,6 +11,11 @@ Host_Node::Host_Node(Host host) : host(host)
     this->proximo = nullptr;
 }
 
+Host_Node::~Host_Node()
+{
+    this->host.limpar();
+}
+
 Fila_Hosts::Fila_Hosts()
 {
     this->no_frontal = nullptr;
@@ -35,10 +40,14 @@ void Fila_Hosts::add_host(Host host)
 
 Host_Node *Fila_Hosts::get_front_host()
 {
+    return this->no_frontal;
 }
 
 void Fila_Hosts::remove_front_host()
 {
+    Host_Node *primeiro = this->no_frontal;
+    this->no_frontal = this->no_frontal->proximo;
+    delete primeiro;
 }
 
 Host_Node *Fila_Hosts::get_host(std::string host_string)
