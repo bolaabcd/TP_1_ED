@@ -21,6 +21,7 @@ std::string URL::as_string()
 
 std::ostream &operator<<(std::ostream &os, URL const &url)
 {
+    os << url.url_string;
     return os;
 }
 
