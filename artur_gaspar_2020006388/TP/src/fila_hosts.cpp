@@ -52,10 +52,33 @@ void Fila_Hosts::remove_front_host()
 
 Host_Node *Fila_Hosts::get_host(std::string host_string)
 {
+    Host_Node *hn = this->no_frontal;
+    while (hn != nullptr && hn->host.base_string() != host_string)
+    {
+        hn = hn->proximo;
+    }
+    return hn;
 }
 
 void Fila_Hosts::remove_host(std::string host_string)
 {
+    Host_Node *hn = this->no_frontal;
+    Host_Node *hn_anterior = nullptr;
+    while (hn != nullptr && hn->host.base_string() != host_string)
+    {
+        hn_anterior = hn;
+        hn = hn->proximo;
+    }
+    if (hn != nullptr)
+    {
+        if (hn_anterior == nullptr)
+            remove_front_host();
+        else
+        {
+            hn_anterior->proximo=hn->proximo;
+            delete hn;
+        }
+    }
 }
 
 bool Fila_Hosts::vazia()
