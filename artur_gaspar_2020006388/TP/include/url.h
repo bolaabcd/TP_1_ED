@@ -16,6 +16,8 @@ public:
     URL(std::string url);
     std::string as_string();
     friend std::ostream &operator<<(std::ostream &os, URL const &url);
+    bool operator<(const URL &url);
+
 private:
     std::string url_string;
     bool url_valido(std::string url);
