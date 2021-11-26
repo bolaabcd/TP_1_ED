@@ -52,6 +52,7 @@ int main(int argc, char **argv)
         com.~Comando();
     }
 
+    escal.~Escalonador();
     arq_entrada.close();
     return 0;
 }
