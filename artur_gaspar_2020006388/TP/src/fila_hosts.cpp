@@ -97,4 +97,13 @@ bool Fila_Hosts::vazia()
 
 void Fila_Hosts::clear()
 {
+    while (!vazia())
+    {
+        remove_front_host();
+    }
+}
+
+Fila_Hosts::~Fila_Hosts()
+{
+    this->clear();
 }
