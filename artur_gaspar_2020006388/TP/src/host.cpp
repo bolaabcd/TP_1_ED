@@ -5,6 +5,11 @@
 //---------------------------------------------------------------------
 
 #include "host.h"
+
+URL_Node::URL_Node(URL url):url(url){
+    this->proximo=nullptr;
+}
+
 Host::Host(std::string url){
     this->host_string = get_host_string(url);
     this->no_frontal = nullptr;
