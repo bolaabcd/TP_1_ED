@@ -7,11 +7,15 @@
 #ifndef HOST_CLASSE
 #define HOST_CLASSE
 
+#include <string>
+#include "url.h"
+
 class Host
 {
 public:
-    Host();
-    
+    Host(std::string url);
+    std::string base_string();
+    void add_url(URL url);
 private:
     
 };

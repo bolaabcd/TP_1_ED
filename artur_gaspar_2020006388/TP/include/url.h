@@ -7,10 +7,12 @@
 #ifndef URL_CLASSE
 #define URL_CLASSE
 
+#include <string>
+
 class URL
 {
 public:
-    URL();
+    URL(std::string url);
     
 private:
     

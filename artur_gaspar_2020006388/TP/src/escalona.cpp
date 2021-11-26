@@ -6,7 +6,8 @@
 
 #include "escalona.h"
 #include "msgassert.h"
-#include <string>
+#include "host.h"
+#include "url.h"
 
 Escalonador::Escalonador(std::string nome_saida)
 {
@@ -59,6 +60,16 @@ Escalonador::~Escalonador()
 
 void Escalonador::add_url(std::string url)
 {
+    URL url_verificado(url);
+    Host host_url = Host(url);
+    Host_Node *hostPointer = this->fila.get_host(host_url.base_string());
+
+    if (hostPointer == nullptr)
+    {
+        this->fila.add_host(host_url);
+    } else {
+        hostPointer->host.add_url(url_verificado);
+    }
 }
 
 void Escalonador::escalona_tudo()
