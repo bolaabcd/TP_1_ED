@@ -26,11 +26,11 @@ private:
     void add_url(std::string url);
     int escalona_tudo();
     int escalona(int quantidade);
-    int escalona_host(std::string host, int quantidade);
+    int escalona_host(std::string host_string, int quantidade);
     int escalona_host_interno(Host_Node* hn, int quantidade);
-    void ver_host(std::string host);
+    void ver_host(std::string host_string);
     void lista_hosts();
-    void limpa_host(std::string host);
+    void limpa_host(std::string host_string);
     void limpa_tudo();
 };
 

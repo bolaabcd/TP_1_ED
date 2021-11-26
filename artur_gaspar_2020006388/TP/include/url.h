@@ -14,6 +14,7 @@ class URL
 {
 public:
     URL(std::string url);
+    std::string as_string();
     friend std::ostream &operator<<(std::ostream &os, URL const &url);
 private:
     

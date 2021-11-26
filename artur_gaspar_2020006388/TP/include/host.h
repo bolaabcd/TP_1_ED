@@ -10,14 +10,20 @@
 #include <string>
 #include "url.h"
 
+struct URL_Node {
+    URL url;
+    URL_Node* anterior;
+    URL_Node* proximo;
+};
+
 class Host
 {
 public:
     Host(std::string url);
     std::string base_string();
     void add_url(URL url);
-    URL get_next_url();
-    void remove_next_url();
+    URL_Node* get_first_url();
+    void remove_first_url();
     bool vazio();
 private:
     
