@@ -74,28 +74,40 @@ void Escalonador::add_url(std::string url)
     }
 }
 
-void Escalonador::escalona_tudo()
+int Escalonador::escalona_tudo()
+{
+    return this->escalona(INT32_MAX);
+}
+
+int Escalonador::escalona(int quantidade)
 {
     Host_Node *hn = this->fila.get_front_host();
-    while (hn != nullptr)
+    int amtEsc = 0;
+    while (hn != nullptr && amtEsc < quantidade)
     {
-        while (!hn->host.vazio())
-        {
-            std::cout << hn->host.get_next_url() << std::endl;
-            hn->host.remove_next_url();
-        }
+        amtEsc += this->escalona_host_interno(hn, quantidade-amtEsc);
 
         this->fila.remove_front_host();
         hn = this->fila.get_front_host();
     }
+    return amtEsc;
 }
 
-void Escalonador::escalona(int quantidade)
+int Escalonador::escalona_host(std::string host_string, int quantidade)
 {
+    return escalona_host_interno(this->fila.get_host(host_string), quantidade);
 }
 
-void Escalonador::escalona_host(std::string host, int quantidade)
+int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
 {
+    int amtEsc = 0;
+    while (!hn->host.vazio() && amtEsc < quantidade)
+    {
+        std::cout << hn->host.get_next_url() << std::endl;
+        hn->host.remove_next_url();
+        amtEsc++;
+    }
+    return amtEsc;
 }
 
 void Escalonador::ver_host(std::string host)
