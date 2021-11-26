@@ -12,7 +12,6 @@
 
 struct URL_Node {
     URL url;
-    URL_Node* anterior;
     URL_Node* proximo;
 };
 

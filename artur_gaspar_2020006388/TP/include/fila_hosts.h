@@ -11,9 +11,10 @@
 #include "host.h"
 
 
-struct Host_Node{
+class Host_Node{
+public:
+    Host_Node(Host host);
     Host host;
-    Host_Node* anterior;
     Host_Node* proximo;
 };
 
@@ -31,7 +32,7 @@ public:
     void clear();
 
 private:
-
+    Host_Node* no_frontal;
 };
 
 #endif
