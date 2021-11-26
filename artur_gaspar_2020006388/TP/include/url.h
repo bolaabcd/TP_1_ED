@@ -19,6 +19,8 @@ public:
 private:
     std::string url_string;
     bool url_valido(std::string url);
+    std::string remove_fragmento(std::string url);
+    bool extensao_valida(std::string url_sem_fragmento);
     std::string url_tratado(std::string url);
 };
 
