@@ -3,6 +3,7 @@
 // Conteudo     : implementacao do tipo Comando
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
+
 #include "comando.h"
 #include "msgassert.h"
 #include <string>

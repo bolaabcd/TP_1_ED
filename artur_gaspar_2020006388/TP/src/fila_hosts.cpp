@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------
-// Arquivo      : escalona.cpp
+// Arquivo      : fila_hosts.cpp
 // Conteudo     : implementacao do tipo Fila_Hosts
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------

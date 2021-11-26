@@ -10,9 +10,12 @@
 #include <string>
 #include "url.h"
 
-struct URL_Node {
+class URL_Node
+{
+public:
+    URL_Node(URL url);
     URL url;
-    URL_Node* proximo;
+    URL_Node *proximo;
 };
 
 class Host
@@ -21,12 +24,17 @@ public:
     Host(std::string url);
     std::string base_string();
     void add_url(URL url);
-    URL_Node* get_first_url();
+    URL_Node *get_first_url();
     void remove_first_url();
     bool vazio();
     void limpar();
+
 private:
-    
+    std::string host_string;
+    URL_Node *no_frontal;
+    int tamanho;
+
+    std::string get_host_string(std::string url);
 };
 
 #endif
