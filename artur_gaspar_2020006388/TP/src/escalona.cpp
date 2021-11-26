@@ -67,13 +67,27 @@ void Escalonador::add_url(std::string url)
     if (hostPointer == nullptr)
     {
         this->fila.add_host(host_url);
-    } else {
+    }
+    else
+    {
         hostPointer->host.add_url(url_verificado);
     }
 }
 
 void Escalonador::escalona_tudo()
 {
+    Host_Node *hn = this->fila.get_front_host();
+    while (hn != nullptr)
+    {
+        while (!hn->host.vazio())
+        {
+            std::cout << hn->host.get_next_url() << std::endl;
+            hn->host.remove_next_url();
+        }
+
+        this->fila.remove_front_host();
+        hn = this->fila.get_front_host();
+    }
 }
 
 void Escalonador::escalona(int quantidade)

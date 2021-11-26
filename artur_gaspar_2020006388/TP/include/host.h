@@ -16,6 +16,9 @@ public:
     Host(std::string url);
     std::string base_string();
     void add_url(URL url);
+    URL get_next_url();
+    void remove_next_url();
+    bool vazio();
 private:
     
 };

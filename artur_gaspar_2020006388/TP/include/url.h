@@ -8,12 +8,13 @@
 #define URL_CLASSE
 
 #include <string>
+#include <iostream>
 
 class URL
 {
 public:
     URL(std::string url);
-    
+    friend std::ostream &operator<<(std::ostream &os, URL const &url);
 private:
     
 };
