@@ -19,10 +19,15 @@ Host_Node::~Host_Node()
 Fila_Hosts::Fila_Hosts()
 {
     this->no_frontal = nullptr;
+    tamanho = 0;
 }
 
 void Fila_Hosts::add_host(Host host)
 {
+    if (get_host(host.base_string()) != nullptr)
+    {
+        return;
+    }
     Host_Node *hn = this->no_frontal;
     if (hn == nullptr)
     {
@@ -36,6 +41,7 @@ void Fila_Hosts::add_host(Host host)
         }
         hn->proximo = new Host_Node(host);
     }
+    this->tamanho++;
 }
 
 Host_Node *Fila_Hosts::get_front_host()
@@ -48,6 +54,7 @@ void Fila_Hosts::remove_front_host()
     Host_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
     delete primeiro;
+    this->tamanho--;
 }
 
 Host_Node *Fila_Hosts::get_host(std::string host_string)
@@ -75,14 +82,17 @@ void Fila_Hosts::remove_host(std::string host_string)
             remove_front_host();
         else
         {
-            hn_anterior->proximo=hn->proximo;
+            hn_anterior->proximo = hn->proximo;
             delete hn;
         }
+
+        this->tamanho--;
     }
 }
 
 bool Fila_Hosts::vazia()
 {
+    return this->tamanho > 0;
 }
 
 void Fila_Hosts::clear()

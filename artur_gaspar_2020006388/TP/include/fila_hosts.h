@@ -34,6 +34,7 @@ public:
 
 private:
     Host_Node* no_frontal;
+    int tamanho;
 };
 
 #endif
