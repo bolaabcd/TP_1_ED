@@ -17,7 +17,9 @@ public:
     std::string as_string();
     friend std::ostream &operator<<(std::ostream &os, URL const &url);
 private:
-    
+    std::string url_string;
+    bool url_valido(std::string url);
+    std::string url_tratado(std::string url);
 };
 
 #endif
