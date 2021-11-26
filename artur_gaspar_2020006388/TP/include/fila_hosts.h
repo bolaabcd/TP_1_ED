@@ -28,6 +28,7 @@ public:
     Host_Node* get_host(std::string host_string);
     void remove_host(std::string host_string);
     bool vazia();
+    void clear();
 
 private:
 

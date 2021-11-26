@@ -130,8 +130,10 @@ void Escalonador::lista_hosts()
 
 void Escalonador::limpa_host(std::string host_string)
 {
+    this->fila.remove_host(host_string);
 }
 
 void Escalonador::limpa_tudo()
 {
+    this->fila.clear();
 }
