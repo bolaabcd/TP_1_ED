@@ -10,7 +10,7 @@
 #include <string>
 #include <fstream>
 #include "comando.h"
-#include "fila.h"
+#include "fila_hosts.h"
 
 class Escalonador
 {
@@ -21,7 +21,7 @@ public:
 
 private:
     std::ofstream arq_saida;
-    Fila fila;
+    Fila_Hosts fila;
 
     void add_url(std::string url);
     void escalona_tudo();

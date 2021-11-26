@@ -1,18 +1,19 @@
 //---------------------------------------------------------------------
-// Arquivo      : fila.h
-// Conteudo     : definicoes do tipo Fila
+// Arquivo      : host.h
+// Conteudo     : definicoes do tipo Host
 // Autor        : Artur Gaspar da Silva(artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
 
-#ifndef FILA
-#define FILA
+#ifndef HOST_CLASSE
+#define HOST_CLASSE
 
-class Fila
+class Host
 {
 public:
-    Fila();
-
+    Host();
+    
 private:
+    
 };
 
 #endif
