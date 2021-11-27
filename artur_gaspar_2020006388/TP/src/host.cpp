@@ -13,7 +13,7 @@ URL_Node::URL_Node(URL url) : url(url)
 
 Host::Host(std::string url)
 {
-    this->host_string = get_host_string(url);
+    this->host_string = URL(url).get_host_string();
     this->no_frontal = nullptr;
     this->tamanho = 0;
 }
@@ -78,26 +78,4 @@ void Host::limpar()
     {
         this->remove_first_url();
     }
-}
-
-std::string Host::get_host_string(std::string url)
-{
-    // Removendo http://
-    std::string resposta = url.substr(8, url.size() - 1);
-
-    // Removendo www.
-    if (resposta.substr(0, 4) == "www.")
-        resposta = resposta.substr(5, resposta.size());
-
-    // Removendo tudo a partir da proxima /
-    for (int i = 0; i < resposta.size(); i++)
-    {
-        if (resposta[i] == '/')
-        {
-            resposta = resposta.substr(0, i - 1);
-            break;
-        }
-    }
-
-    return resposta;
 }

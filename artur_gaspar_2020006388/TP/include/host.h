@@ -33,8 +33,6 @@ private:
     std::string host_string;
     URL_Node *no_frontal;
     int tamanho;
-
-    std::string get_host_string(std::string url);
 };
 
 #endif
