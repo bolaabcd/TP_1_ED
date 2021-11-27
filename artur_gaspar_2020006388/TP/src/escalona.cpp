@@ -15,7 +15,7 @@ Escalonador::Escalonador(std::string nome_saida)
     erroAssert(arq_saida.good(), "Nao foi possivel abrir o arquivo de saida!");
 }
 
-void Escalonador::executar_comando(Comando com)
+void Escalonador::executar_comando(Comando &com)
 {
     switch (com.get_id())
     {
@@ -89,6 +89,7 @@ int Escalonador::escalona(int quantidade)
 {
     Host_Node *hn = this->fila.get_front_host();
     int amtEsc = 0;
+
     while (hn != nullptr && amtEsc < quantidade)
     {
         amtEsc += this->escalona_host_interno(hn, quantidade - amtEsc);

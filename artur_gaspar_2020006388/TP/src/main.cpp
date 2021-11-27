@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     while (arq_entrada >> com)
     {
         escal.executar_comando(com);
-        com.~Comando();
+        // com.~Comando();
     }
 
     escal.~Escalonador();
