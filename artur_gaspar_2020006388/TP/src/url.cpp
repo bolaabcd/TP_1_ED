@@ -9,8 +9,8 @@
 
 URL::URL(std::string url)
 {
-    erroAssert(this->url_valido(url), "URL invalido recebido");
-    this->url_string = this->url_tratado(url);
+    if(url_valido(url))
+        this->url_string = this->url_tratado(url);
 }
 
 std::string URL::as_string()
