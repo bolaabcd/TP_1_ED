@@ -72,12 +72,12 @@ bool URL::contida(URL url)
     return true;
 }
 
-bool URL::operator>(const URL &url)
+bool URL::operator>=(const URL &url)
 {
     int n_barras = 0, n_barras_arg = 0;
     for(char c: this->url_string) n_barras += (c == '/'); 
     for(char c: url.url_string) n_barras_arg += (c == '/');
-    return n_barras > n_barras_arg; 
+    return n_barras >= n_barras_arg; 
 }
 
 bool URL::url_valido(std::string url)

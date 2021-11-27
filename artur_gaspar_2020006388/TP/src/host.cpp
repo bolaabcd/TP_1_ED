@@ -34,8 +34,10 @@ void Host::add_url(URL url)
         return;
     }
 
-    while (un != nullptr && url > un->url)
+    while (un != nullptr && url >= un->url)
     {
+        if(url.as_string() == un->url.as_string())
+            return;
         anterior = un;
         un = un->proximo;
     }
