@@ -22,7 +22,13 @@ void Escalonador::executar_comando(Comando com)
     case 0: // add_urls
         while (com.more_urls())
         {
-            this->add_url(com.get_url());
+            try
+            {
+                this->add_url(com.get_url());
+            }
+            catch (const std::invalid_argument &ia)
+            {
+            }
         }
         break;
     case 1: // escalona_tudo
@@ -113,7 +119,8 @@ int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
 void Escalonador::ver_host(std::string host_string)
 {
     URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
-    while(un != nullptr) {
+    while (un != nullptr)
+    {
         std::cout << un->url.as_string() << std::endl;
         un = un->proximo;
     }
@@ -122,7 +129,8 @@ void Escalonador::ver_host(std::string host_string)
 void Escalonador::lista_hosts()
 {
     Host_Node *hn = this->fila.get_front_host();
-    while(hn != nullptr) {
+    while (hn != nullptr)
+    {
         std::cout << hn->host.base_string() << std::endl;
         hn = hn->proximo;
     }

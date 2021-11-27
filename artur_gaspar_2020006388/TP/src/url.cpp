@@ -11,6 +11,8 @@ URL::URL(std::string url)
 {
     if(url_valido(url))
         this->url_string = this->url_tratado(url);
+    else
+        throw std::invalid_argument("Url invalido fornecido.");
 }
 
 std::string URL::as_string()
@@ -27,7 +29,7 @@ std::ostream &operator<<(std::ostream &os, URL const &url)
 std::string URL::get_host_string()
 {
     // Removendo http://
-    std::string resposta = this->url_string.substr(8, this->url_string.size() - 1);
+    std::string resposta = this->url_string.substr(7);
 
     // Removendo www.
     if (resposta.substr(0, 4) == "www.")
