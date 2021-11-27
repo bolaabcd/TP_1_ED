@@ -34,7 +34,7 @@ std::string URL::get_host_string()
         resposta = resposta.substr(5, resposta.size());
 
     // Removendo tudo a partir da proxima /
-    for (int i = 0; i < resposta.size(); i++)
+    for (size_t i = 0; i < resposta.size(); i++)
     {
         if (resposta[i] == '/')
         {
@@ -58,7 +58,7 @@ bool URL::contida(URL url)
         return false;
 
     // Obtendo o primeiro caractere que nao pertence ao host
-    int i;
+    size_t i;
     std::string host_string = this->get_host_string();
     for (i = 0; i < this->url_string.size() && url.url_string[i] == host_string[i]; i++);
 
@@ -116,6 +116,8 @@ std::string URL::remove_www(std::string url)
 {
     if (url.substr(8, 4) == "www.")
         return url.substr(0, 7) + url.substr(12);
+    else
+        return url;
 }
 
 std::string URL::url_tratado(std::string url)
