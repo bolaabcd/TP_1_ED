@@ -67,7 +67,9 @@ std::istream &operator>>(std::istream &is, Comando &com)
         com.urls = (std::string *)malloc(com.quantidade * sizeof(std::string));
         for (int i = 0; i < com.quantidade; i++)
         {
-            is >> com.urls[i];
+            std::string temp;
+            is >> temp;
+            com.urls[i] = temp;
         }
         com.atual_url_pos = 0;
         break;
