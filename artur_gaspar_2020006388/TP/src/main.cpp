@@ -22,20 +22,16 @@ void uso()
 
 std::string getNomeSaida(std::string nome_entrada)
 {
-    return nome_entrada;
-}
-
-bool checkNomeValido(std::string nome_entrada)
-{
-
-    return true;
+    size_t pos_ext = nome_entrada.find_last_of('.');
+    return nome_entrada.substr(0,pos_ext) + "-out" + nome_entrada.substr(pos_ext);
 }
 
 int main(int argc, char **argv)
 {
-    if (argc != 2)
+    if (argc != 2){
         uso();
-    erroAssert(checkNomeValido(argv[1]), "Nome de arquivo invalido.");
+        exit(1);
+    }
 
     std::string nome_entrada(argv[1]);
     std::ifstream arq_entrada;
