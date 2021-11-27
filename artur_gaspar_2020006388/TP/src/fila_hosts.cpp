@@ -31,7 +31,7 @@ void Fila_Hosts::add_host(Host host)
     Host_Node *hn = this->no_frontal;
     if (hn == nullptr)
     {
-        hn = new Host_Node(host);
+        this->no_frontal = new Host_Node(host);
     }
     else
     {
