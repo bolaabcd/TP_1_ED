@@ -48,7 +48,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
         com.id_comando = 3;
     else if (nome_comando == "VER_HOST")
         com.id_comando = 4;
-    else if (nome_comando == "LISTA_HOSTS:")
+    else if (nome_comando == "LISTA_HOSTS")
         com.id_comando = 5;
     else if (nome_comando == "LIMPA_HOST")
         com.id_comando = 6;
@@ -85,9 +85,6 @@ std::istream &operator>>(std::istream &is, Comando &com)
     case 6: // limpa_host
         is >> com.host;
         break;
-    default:
-        std::cerr << "Comando invalido: " << nome_comando << std::endl;
-        abort();
     }
 
     return is;
