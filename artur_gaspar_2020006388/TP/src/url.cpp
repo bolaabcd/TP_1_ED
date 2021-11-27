@@ -33,7 +33,7 @@ bool URL::url_valido(std::string url)
     return http && ext_valida;
 }
 
-std::string remove_fragmento(std::string url)
+std::string URL::remove_fragmento(std::string url)
 {
     std::string newUrl = "";
     for (char c : url)
@@ -45,7 +45,7 @@ std::string remove_fragmento(std::string url)
     return newUrl;
 }
 
-bool extensao_valida(std::string url_sem_fragmento)
+bool URL::extensao_valida(std::string url_sem_fragmento)
 {
     int tamanho = url_sem_fragmento.size();
     std::string extensao = url_sem_fragmento.substr(tamanho - 4, 4);
@@ -56,7 +56,19 @@ bool extensao_valida(std::string url_sem_fragmento)
         return true;
 }
 
+std::string URL::remove_www(std::string url){
+    if(url.substr(8,4) == "www.")
+        return url.substr(0,7) + url.substr(12);
+}
+
 std::string URL::url_tratado(std::string url)
 {
-    return this->remove_fragmento(url);
+    std::string sem_fragmento = this->remove_fragmento(url);
+    std::string sem_www = this->remove_www(sem_fragmento);
+    std::string resposta;
+    if(sem_www[sem_www.size()-1] == '/')
+        resposta = sem_www.substr(0,sem_www.size()-1);
+    else
+        resposta = sem_www;
+    return resposta;
 }
