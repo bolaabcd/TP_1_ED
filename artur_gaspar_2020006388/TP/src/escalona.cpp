@@ -73,11 +73,9 @@ void Escalonador::add_url(std::string url)
     if (hostPointer == nullptr)
     {
         this->fila.add_host(host_url);
+        hostPointer = this->fila.get_host(host_url.base_string());
     }
-    else
-    {
-        hostPointer->host.add_url(url_verificado);
-    }
+    hostPointer->host.add_url(url_verificado);
 }
 
 int Escalonador::escalona_tudo()
@@ -94,8 +92,9 @@ int Escalonador::escalona(int quantidade)
     {
         amtEsc += this->escalona_host_interno(hn, quantidade - amtEsc);
 
-        this->fila.remove_front_host();
-        hn = this->fila.get_front_host();
+        // this->fila.remove_front_host();
+        // hn = this->fila.get_front_host();
+        hn = hn->proximo;
     }
     return amtEsc;
 }
@@ -110,7 +109,7 @@ int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
     int amtEsc = 0;
     while (!hn->host.vazio() && amtEsc < quantidade)
     {
-        std::cout << hn->host.get_first_url() << std::endl;
+        this->arq_saida << hn->host.get_first_url()->url << std::endl;
         hn->host.remove_first_url();
         amtEsc++;
     }
@@ -122,7 +121,7 @@ void Escalonador::ver_host(std::string host_string)
     URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
     while (un != nullptr)
     {
-        std::cout << un->url.as_string() << std::endl;
+        this->arq_saida << un->url.as_string() << std::endl;
         un = un->proximo;
     }
 }
@@ -132,7 +131,7 @@ void Escalonador::lista_hosts()
     Host_Node *hn = this->fila.get_front_host();
     while (hn != nullptr)
     {
-        std::cout << hn->host.base_string() << std::endl;
+        this->arq_saida << hn->host.base_string() << std::endl;
         hn = hn->proximo;
     }
 }

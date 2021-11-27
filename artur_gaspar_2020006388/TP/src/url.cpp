@@ -33,14 +33,14 @@ std::string URL::get_host_string()
 
     // Removendo www.
     if (resposta.substr(0, 4) == "www.")
-        resposta = resposta.substr(5, resposta.size());
+        resposta = resposta.substr(4);
 
     // Removendo tudo a partir da proxima /
     for (size_t i = 0; i < resposta.size(); i++)
     {
         if (resposta[i] == '/')
         {
-            resposta = resposta.substr(0, i - 1);
+            resposta = resposta.substr(0, i);
             break;
         }
     }

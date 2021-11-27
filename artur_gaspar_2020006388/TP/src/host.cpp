@@ -52,6 +52,7 @@ void Host::add_url(URL url)
             anterior->proximo->proximo = un;
         }
     }
+    this->tamanho++;
 }
 
 URL_Node *Host::get_first_url()

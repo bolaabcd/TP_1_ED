@@ -64,6 +64,8 @@ Host_Node *Fila_Hosts::get_host(std::string host_string)
     {
         hn = hn->proximo;
     }
+    // std::cout << host_string << std::endl;
+    // std::cout << this->no_frontal << std::endl;
     return hn;
 }
 
