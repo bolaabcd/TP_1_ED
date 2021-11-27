@@ -27,18 +27,28 @@ void Host::add_url(URL url)
 {
     URL_Node *un = this->no_frontal;
     URL_Node *anterior = nullptr;
-    while (un != nullptr && !(url < un->url))
+    if (un == nullptr)
+    {
+        this->no_frontal = new URL_Node(url);
+        this->tamanho++;
+        return;
+    }
+
+    while (un != nullptr && url > un->url)
     {
         anterior = un;
         un = un->proximo;
     }
+
     if (un == nullptr)
     {
-        this->no_frontal = new URL_Node(url);
+        if(anterior->url.as_string() == url.as_string())
+            return;
+        anterior->proximo = new URL_Node(url);
     }
     else
     {
-        if (un->url.as_string() == url.as_string())
+        if(un->url.as_string() == url.as_string())
             return;
         if (anterior == nullptr)
         {

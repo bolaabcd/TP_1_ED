@@ -72,14 +72,12 @@ bool URL::contida(URL url)
     return true;
 }
 
-bool URL::operator<(const URL &url)
+bool URL::operator>(const URL &url)
 {
-    if (this->as_string() == url.url_string)
-        return false;
-    else if (this->same_host(url) && this->contida(url))
-        return false;
-    else
-        return true;
+    int n_barras = 0, n_barras_arg = 0;
+    for(char c: this->url_string) n_barras += (c == '/'); 
+    for(char c: url.url_string) n_barras_arg += (c == '/');
+    return n_barras > n_barras_arg; 
 }
 
 bool URL::url_valido(std::string url)
@@ -116,8 +114,8 @@ bool URL::extensao_valida(std::string url_sem_fragmento)
 
 std::string URL::remove_www(std::string url)
 {
-    if (url.substr(8, 4) == "www.")
-        return url.substr(0, 7) + url.substr(12);
+    if (url.substr(7, 4) == "www.")
+        return url.substr(0, 7) + url.substr(11);
     else
         return url;
 }

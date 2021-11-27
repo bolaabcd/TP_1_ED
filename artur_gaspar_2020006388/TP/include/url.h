@@ -16,7 +16,7 @@ public:
     URL(std::string url);
     std::string as_string();
     friend std::ostream &operator<<(std::ostream &os, URL const &url);
-    bool operator<(const URL &url);
+    bool operator>(const URL &url);
     std::string get_host_string();
 
 private:
