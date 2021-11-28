@@ -14,7 +14,6 @@
 class Comando
 {
 public:
-    Comando(){};
     int get_id();
     std::string get_host();
     bool more_urls();

@@ -1,55 +1,147 @@
 //---------------------------------------------------------------------
-// Arquivo      : main.cpp
-// Conteudo     : implementacao do programa escalonador
+// Arquivo      : escalona.cpp
+// Conteudo     : implementacao do tipo Escalona
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
 
-#include <iostream>
-#include <fstream>
+#include "escalonador.h"
 #include "msgassert.h"
-#include "escalona.h"
-#include "comando.h"
+#include "host.h"
+#include "url.h"
 
-void uso()
-// Descricao: imprime as opcoes de uso
-// Entrada: nao tem
-// Saida: impressao das opcoes de linha de comando
-
+Escalonador::Escalonador(std::string nome_saida)
 {
-    std::cerr << "escalonador" << std::endl;
-    std::cerr << "\t<arq>\t\t(nome do arquivo de entrada, argumento obrigatorio)" << std::endl;
+    this->arq_saida.open(nome_saida, std::ofstream::out);
+    erroAssert(arq_saida.good(), "Nao foi possivel abrir o arquivo de saida!");
 }
 
-std::string getNomeSaida(std::string nome_entrada)
+void Escalonador::executar_comando(Comando &com)
 {
-    size_t pos_ext = nome_entrada.find_last_of('.');
-    return nome_entrada.substr(0, pos_ext) + "-out" + nome_entrada.substr(pos_ext);
+    switch (com.get_id())
+    {
+    case 0: // add_urls
+        while (com.more_urls())
+        {
+            try
+            {
+                this->add_url(com.get_url());
+            }
+            catch (const std::invalid_argument &ia)
+            {
+            }
+        }
+        break;
+    case 1: // escalona_tudo
+        this->escalona_tudo();
+        break;
+    case 2: // escalona
+        this->escalona(com.get_quantidade());
+        break;
+    case 3: // escalona_host
+        this->escalona_host(com.get_host(), com.get_quantidade());
+        break;
+    case 4: // ver_host
+        this->ver_host(com.get_host());
+        break;
+    case 5: // lista_hosts
+        this->lista_hosts();
+        break;
+    case 6: // limpa_host
+        this->limpa_host(com.get_host());
+        break;
+    case 7: // limpa_tudo
+        this->limpa_tudo();
+        break;
+    default:
+        std::cerr << "Comando invalido: " << com.get_id() << std::endl;
+        abort();
+    }
 }
 
-int main(int argc, char **argv)
+Escalonador::~Escalonador()
 {
-    if (argc != 2)
+    this->arq_saida.close();
+    this->limpa_tudo();
+}
+
+void Escalonador::add_url(std::string url)
+{
+    URL url_verificado(url);
+    Host host_url = Host(url);
+    Host_Node *hostPointer = this->fila.get_host(host_url.base_string());
+
+    if (hostPointer == nullptr)
     {
-        uso();
-        exit(1);
+        this->fila.add_host(host_url);
+        hostPointer = this->fila.get_host(host_url.base_string());
     }
+    hostPointer->host.add_url(url_verificado);
+}
 
-    std::string nome_entrada(argv[1]);
-    std::ifstream arq_entrada;
-    arq_entrada.open(nome_entrada, std::ifstream::in);
-    erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
+int Escalonador::escalona_tudo()
+{
+    return this->escalona(INT32_MAX);
+}
 
-    std::string nome_saida(getNomeSaida(nome_entrada));
+int Escalonador::escalona(int quantidade)
+{
+    Host_Node *hn = this->fila.get_front_host();
+    int amtEsc = 0;
 
-    Escalonador escal(nome_saida);
-    Comando com;
-    while (arq_entrada >> com)
+    while (hn != nullptr && amtEsc < quantidade)
     {
-        escal.executar_comando(com);
-        // com.~Comando();
-    }
+        amtEsc += this->escalona_host_interno(hn, quantidade - amtEsc);
 
-    escal.~Escalonador();
-    arq_entrada.close();
-    return 0;
+        // this->fila.remove_front_host();
+        // hn = this->fila.get_front_host();
+        hn = hn->proximo;
+    }
+    return amtEsc;
+}
+
+int Escalonador::escalona_host(std::string host_string, int quantidade)
+{
+    return escalona_host_interno(this->fila.get_host(host_string), quantidade);
+}
+
+int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
+{
+    int amtEsc = 0;
+    while (!hn->host.vazio() && amtEsc < quantidade)
+    {
+        this->arq_saida << hn->host.get_first_url()->url << std::endl;
+        hn->host.remove_first_url();
+        amtEsc++;
+    }
+    return amtEsc;
+}
+
+void Escalonador::ver_host(std::string host_string)
+{
+    URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
+    while (un != nullptr)
+    {
+        this->arq_saida << un->url.as_string() << std::endl;
+        un = un->proximo;
+    }
+}
+
+void Escalonador::lista_hosts()
+{
+    Host_Node *hn = this->fila.get_front_host();
+    while (hn != nullptr)
+    {
+        this->arq_saida << hn->host.base_string() << std::endl;
+        hn = hn->proximo;
+    }
+}
+
+void Escalonador::limpa_host(std::string host_string)
+{
+    this->fila.remove_host(host_string);
+}
+
+void Escalonador::limpa_tudo()
+{
+    this->fila.clear();
 }

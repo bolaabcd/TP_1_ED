@@ -94,5 +94,8 @@ std::istream &operator>>(std::istream &is, Comando &com)
 
 Comando::~Comando()
 {
-    free(this->urls);
+    if(this->urls != nullptr){
+        free(this->urls);
+        this->urls = nullptr;
+    }
 }
