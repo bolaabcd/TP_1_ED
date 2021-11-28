@@ -53,6 +53,7 @@ void Fila_Hosts::remove_front_host()
 {
     Host_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
+    primeiro->host.limpar();
     delete primeiro;
     this->tamanho--;
 }
