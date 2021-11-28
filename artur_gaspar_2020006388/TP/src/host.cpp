@@ -36,7 +36,7 @@ void Host::add_url(URL url)
 
     while (un != nullptr && url >= un->url)
     {
-        if(url.as_string() == un->url.as_string())
+        if (url.as_string() == un->url.as_string())
             return;
         anterior = un;
         un = un->proximo;
@@ -44,13 +44,13 @@ void Host::add_url(URL url)
 
     if (un == nullptr)
     {
-        if(anterior->url.as_string() == url.as_string())
+        if (anterior->url.as_string() == url.as_string())
             return;
         anterior->proximo = new URL_Node(url);
     }
     else
     {
-        if(un->url.as_string() == url.as_string())
+        if (un->url.as_string() == url.as_string())
             return;
         if (anterior == nullptr)
         {

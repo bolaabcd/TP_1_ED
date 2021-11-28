@@ -23,12 +23,13 @@ void uso()
 std::string getNomeSaida(std::string nome_entrada)
 {
     size_t pos_ext = nome_entrada.find_last_of('.');
-    return nome_entrada.substr(0,pos_ext) + "-out" + nome_entrada.substr(pos_ext);
+    return nome_entrada.substr(0, pos_ext) + "-out" + nome_entrada.substr(pos_ext);
 }
 
 int main(int argc, char **argv)
 {
-    if (argc != 2){
+    if (argc != 2)
+    {
         uso();
         exit(1);
     }

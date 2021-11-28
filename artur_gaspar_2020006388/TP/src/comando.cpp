@@ -38,7 +38,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
 {
     std::string nome_comando;
     is >> nome_comando;
-    if(is.eof())
+    if (is.eof())
         return is;
     if (nome_comando == "ADD_URLS")
         com.id_comando = 0;

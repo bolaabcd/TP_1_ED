@@ -9,7 +9,7 @@
 
 URL::URL(std::string url)
 {
-    if(url_valido(url))
+    if (url_valido(url))
         this->url_string = this->url_tratado(url);
     else
         throw std::invalid_argument("Url invalido fornecido.");
@@ -56,16 +56,18 @@ bool URL::same_host(URL url)
 bool URL::contida(URL url)
 {
     // Verificando se a string contida eh menor que a que a contem
-    if(this->url_string.size() < url.url_string.size())
+    if (this->url_string.size() < url.url_string.size())
         return false;
 
     // Obtendo o primeiro caractere que nao pertence ao host
     size_t i;
     std::string host_string = this->get_host_string();
-    for (i = 0; i < this->url_string.size() && url.url_string[i] == host_string[i]; i++);
+    for (i = 0; i < this->url_string.size() && url.url_string[i] == host_string[i]; i++)
+        ;
 
-    for(; i < this->url_string.size(); i++){
-        if(this->url_string[i] != url.url_string[i])
+    for (; i < this->url_string.size(); i++)
+    {
+        if (this->url_string[i] != url.url_string[i])
             return false;
     }
 
@@ -75,9 +77,11 @@ bool URL::contida(URL url)
 bool URL::operator>=(const URL &url)
 {
     int n_barras = 0, n_barras_arg = 0;
-    for(char c: this->url_string) n_barras += (c == '/'); 
-    for(char c: url.url_string) n_barras_arg += (c == '/');
-    return n_barras >= n_barras_arg; 
+    for (char c : this->url_string)
+        n_barras += (c == '/');
+    for (char c : url.url_string)
+        n_barras_arg += (c == '/');
+    return n_barras >= n_barras_arg;
 }
 
 bool URL::url_valido(std::string url)

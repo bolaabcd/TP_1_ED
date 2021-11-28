@@ -27,7 +27,7 @@ private:
     int escalona_tudo();
     int escalona(int quantidade);
     int escalona_host(std::string host_string, int quantidade);
-    int escalona_host_interno(Host_Node* hn, int quantidade);
+    int escalona_host_interno(Host_Node *hn, int quantidade);
     void ver_host(std::string host_string);
     void lista_hosts();
     void limpa_host(std::string host_string);
