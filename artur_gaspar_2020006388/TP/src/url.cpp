@@ -48,32 +48,6 @@ std::string URL::get_host_string()
     return resposta;
 }
 
-bool URL::same_host(URL url)
-{
-    return this->get_host_string() == url.get_host_string();
-}
-
-bool URL::contida(URL url)
-{
-    // Verificando se a string contida eh menor que a que a contem
-    if (this->url_string.size() < url.url_string.size())
-        return false;
-
-    // Obtendo o primeiro caractere que nao pertence ao host
-    size_t i;
-    std::string host_string = this->get_host_string();
-    for (i = 0; i < this->url_string.size() && url.url_string[i] == host_string[i]; i++)
-        ;
-
-    for (; i < this->url_string.size(); i++)
-    {
-        if (this->url_string[i] != url.url_string[i])
-            return false;
-    }
-
-    return true;
-}
-
 bool URL::operator>=(const URL &url)
 {
     int n_barras = 0, n_barras_arg = 0;
@@ -108,6 +82,8 @@ std::string URL::remove_fragmento(std::string url)
 bool URL::extensao_valida(std::string url_sem_fragmento)
 {
     int tamanho = url_sem_fragmento.size();
+    if (url_sem_fragmento[url_sem_fragmento.size() - 1] == '/')
+        url_sem_fragmento = url_sem_fragmento.substr(0, url_sem_fragmento.size() - 1);
     std::string extensao = url_sem_fragmento.substr(tamanho - 4, 4);
     if (extensao == ".jpg" || extensao == ".gif" || extensao == ".mp3" ||
         extensao == ".avi" || extensao == ".doc" || extensao == ".pdf")

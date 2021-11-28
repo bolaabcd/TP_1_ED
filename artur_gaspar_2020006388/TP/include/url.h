@@ -21,8 +21,6 @@ public:
 
 private:
     std::string url_string;
-    bool same_host(URL url);
-    bool contida(URL url);
     bool url_valido(std::string url);
     std::string remove_fragmento(std::string url);
     bool extensao_valida(std::string url_sem_fragmento);
