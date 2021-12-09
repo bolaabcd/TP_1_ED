@@ -58,10 +58,14 @@ void Escalonador::executar_comando(Comando &com)
     }
 }
 
-Escalonador::~Escalonador()
-{
+void Escalonador::destruir(){
     this->arq_saida.close();
     this->limpa_tudo();
+}
+
+Escalonador::~Escalonador()
+{
+    this->destruir();
 }
 
 void Escalonador::add_url(std::string url)

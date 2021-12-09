@@ -26,7 +26,7 @@ bool Comando::more_urls()
 
 std::string Comando::get_url()
 {
-    return this->urls[this->atual_url_pos++];
+    return *this->urls[this->atual_url_pos++];
 }
 
 int Comando::get_quantidade()
@@ -38,7 +38,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
 {
     std::string nome_comando;
     is >> nome_comando;
-    if (is.eof())
+    if (is.eof() || !is.good())
         return is;
     if (nome_comando == "ADD_URLS")
         com.id_comando = 0;
@@ -66,14 +66,16 @@ std::istream &operator>>(std::istream &is, Comando &com)
     {
     case 0: // add_urls
         is >> com.quantidade;
-        com.urls = (std::string *)malloc(com.quantidade * sizeof(std::string));
+        com.urls = (std::string **)malloc(com.quantidade * sizeof(std::string*));
+
         for (int i = 0; i < com.quantidade; i++)
         {
-            std::string temp;
-            is >> temp;
-            com.urls[i] = temp;
+            com.urls[i] = new std::string;
+            is >> *com.urls[i];
         }
         com.atual_url_pos = 0;
+        break;
+    case 1: // escalona_tudo
         break;
     case 2: // escalona
         is >> com.quantidade;
@@ -84,18 +86,35 @@ std::istream &operator>>(std::istream &is, Comando &com)
     case 4: // ver_host
         is >> com.host;
         break;
+    case 5: // lista_hosts
+        break;
     case 6: // limpa_host
         is >> com.host;
         break;
+    case 7: // limpa_tudo
+        break;
+    default:
+        std::cerr << "Resultado inesperado ao executar " << nome_comando << std::endl;
+        abort();
     }
 
     return is;
 }
 
-Comando::~Comando()
-{
+void Comando::destruir(){
     if(this->urls != nullptr){
+        for(int i = 0; i < this->quantidade; i++) {
+            if(this->urls[i] != nullptr){
+                free(this->urls[i]);
+                this->urls[i] = nullptr;
+            }
+        }
         free(this->urls);
         this->urls = nullptr;
     }
+}
+
+Comando::~Comando()
+{
+    this->destruir();
 }

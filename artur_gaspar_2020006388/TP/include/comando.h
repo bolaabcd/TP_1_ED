@@ -20,12 +20,13 @@ public:
     std::string get_url();
     int get_quantidade();
     friend std::istream &operator>>(std::istream &is, Comando &com);
+    void destruir();
     ~Comando();
 
 private:
     int id_comando;
     std::string host;
-    std::string *urls;
+    std::string **urls;
     int quantidade;
     int atual_url_pos;
 };

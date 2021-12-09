@@ -46,10 +46,11 @@ int main(int argc, char **argv)
     while (arq_entrada >> com)
     {
         escal.executar_comando(com);
-        com.~Comando();
+        com.destruir();
     }
 
-    escal.~Escalonador();
+    escal.destruir();
     arq_entrada.close();
+
     return 0;
 }

@@ -17,6 +17,7 @@ class Escalonador
 public:
     Escalonador(std::string nome_saida);
     void executar_comando(Comando &com);
+    void destruir();
     ~Escalonador();
 
 private:
