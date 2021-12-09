@@ -20,7 +20,7 @@ void uso()
     std::cerr << "\t<arq>\t\t(nome do arquivo de entrada, argumento obrigatorio)" << std::endl;
 }
 
-std::string getNomeSaida(std::string nome_entrada)
+std::string get_nome_saida(std::string nome_entrada)
 {
     size_t pos_ext = nome_entrada.find_last_of('.');
     return nome_entrada.substr(0, pos_ext) + "-out" + nome_entrada.substr(pos_ext);
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     arq_entrada.open(nome_entrada, std::ifstream::in);
     erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
 
-    std::string nome_saida(getNomeSaida(nome_entrada));
+    std::string nome_saida(get_nome_saida(nome_entrada));
 
     Escalonador escal(nome_saida);
     Comando com;
