@@ -16,21 +16,33 @@ int Comando::get_id()
 
 std::string Comando::get_host()
 {
+    erroAssert(
+        this->id_comando == 3 || 
+        this->id_comando == 4 ||
+        this->id_comando == 6
+        ,"O comando desejado nao possui host como argumento.");
     return this->host;
 }
 
 bool Comando::more_urls()
 {
+    erroAssert(this->id_comando == 0, "O comando desejado nao possui urls como argumento.");
     return this->atual_url_pos < this->quantidade;
 }
 
 std::string Comando::get_url()
 {
+    erroAssert(this->id_comando == 0, "O comando desejado nao possui urls como argumento.");
     return *this->urls[this->atual_url_pos++];
 }
 
 int Comando::get_quantidade()
 {
+    erroAssert(
+        this->id_comando == 0 ||
+        this->id_comando == 1
+        ,"O comando desejado nao possui quantidade como argumento."
+    );
     return this->quantidade;
 }
 
