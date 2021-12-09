@@ -28,10 +28,10 @@ std::ostream &operator<<(std::ostream &os, URL const &url)
 
 std::string URL::get_host_string()
 {
-    // Removendo http://
+    // Removendo "http://"
     std::string resposta = this->url_string.substr(7);
 
-    // Removendo www.
+    // Removendo "www."
     if (resposta.substr(0, 4) == "www.")
         resposta = resposta.substr(4);
 

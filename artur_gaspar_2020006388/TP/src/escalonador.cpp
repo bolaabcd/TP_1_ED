@@ -95,9 +95,6 @@ int Escalonador::escalona(int quantidade)
     while (hn != nullptr && amtEsc < quantidade)
     {
         amtEsc += this->escalona_host_interno(hn, quantidade - amtEsc);
-
-        // this->fila.remove_front_host();
-        // hn = this->fila.get_front_host();
         hn = hn->proximo;
     }
     return amtEsc;
@@ -105,7 +102,10 @@ int Escalonador::escalona(int quantidade)
 
 int Escalonador::escalona_host(std::string host_string, int quantidade)
 {
-    return escalona_host_interno(this->fila.get_host(host_string), quantidade);
+    Host_Node *hn = this->fila.get_host(host_string);
+    if (hn == nullptr)
+        return 0;
+    return escalona_host_interno(hn, quantidade);
 }
 
 int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
