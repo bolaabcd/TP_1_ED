@@ -15,13 +15,15 @@ Escalonador::Escalonador(std::string nome_saida)
 // Saida: objeto Escalonador instanciado.
 {
     this->arq_saida.open(nome_saida, std::ofstream::out);
+
     erroAssert(arq_saida.good(), "Nao foi possivel abrir o arquivo de saida!");
 }
 
 void Escalonador::executar_comando(Comando &com)
 // Descricao: executa um comando.
 // Entrada: objeto do tipo Comando representando o comando a ser executado.
-// Saida: depende do comando, alguns imprimem algo no arquivo de saída, outros só deletam URLs, por exemplo.
+// Saida: depende do comando, alguns imprimem algo no arquivo de saída, outros só deletam
+// URLs, por exemplo.
 {
     switch (com.get_id())
     {
@@ -86,10 +88,12 @@ void Escalonador::add_url(std::string url)
 // Entrada: string correspondente à URL a ser adicionada.
 // Saida: nenhuma.
 {
+    // Inicializa os tipos adequados e procura o host.
     URL url_verificado(url);
     Host host_url = Host(url);
     Host_Node *hostPointer = this->fila.get_host(host_url.base_string());
 
+    // Adiciona o host se ele não está presente, e adiciona o URL.
     if (hostPointer == nullptr)
     {
         this->fila.add_host(host_url);
@@ -99,15 +103,19 @@ void Escalonador::add_url(std::string url)
 }
 
 int Escalonador::escalona_tudo()
-// Descricao: escalona todas as URLs presentes (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Descricao: escalona todas as URLs presentes (imŕime em ordem no arquivod de saída e
+// deleta do Escalonador).
 // Entrada: nada.
 // Saida: quantidade de URLs escalonadas.
 {
+    // Escalonamos até 2147483647 URLs, que provavelmente é mais que o suficiente, já que
+    // cada URL tem pelo menos 7 bytes ("http://"), passar esse limite exigiria mais que 14Gb.
     return this->escalona(INT32_MAX);
 }
 
 int Escalonador::escalona(int quantidade)
-// Descricao: escalona no máximo <quantidade> URLs (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Descricao: escalona no máximo <quantidade> URLs (imŕime em ordem no arquivod de saída e
+// deleta do Escalonador).
 // Entrada: quantidade máxima a ser escalonada.
 // Saida: quantidade de URLs efetivamente escalonadas.
 {
@@ -115,6 +123,8 @@ int Escalonador::escalona(int quantidade)
     Host_Node *hn = this->fila.get_front_host();
     int amtEsc = 0;
 
+    // Escalona cada um dos hosts em ordem, até a quantidade atingir o quanto queremos,
+    // ou os URLs presentes acabarem.
     while (hn != nullptr && amtEsc < quantidade)
     {
         amtEsc += this->escalona_host_interno(hn, quantidade - amtEsc);
@@ -124,12 +134,14 @@ int Escalonador::escalona(int quantidade)
 }
 
 int Escalonador::escalona_host(std::string host_string, int quantidade)
-// Descricao: escalona no máximo <quantidade> URLs do host (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Descricao: escalona no máximo <quantidade> URLs do host (imŕime em ordem no arquivod
+// de saída e deleta do Escalonador).
 // Entrada: quantidade máxima a ser escalonada e string do host do qual devemos escalonar.
 // Saida: quantidade de URLs efetivamente escalonadas.
 {
     erroAssert(quantidade >= 0, "Quantidade de URLs a escalonar invalida.");
     Host_Node *hn = this->fila.get_host(host_string);
+    // Note que simplesmente ignoramos hosts inválidos ao invés de gerar erro.
     if (hn == nullptr)
         return 0;
     else
@@ -137,12 +149,14 @@ int Escalonador::escalona_host(std::string host_string, int quantidade)
 }
 
 int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
-// Descricao: escalona no máximo <quantidade> URLs do host do nó (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Descricao: escalona no máximo <quantidade> URLs do host do nó (imŕime em ordem no
+// arquivo de saída e deleta do Escalonador).
 // Entrada: quantidade máxima a ser escalonada e nó do host cujas URLs devemos escalonar.
 // Saida: quantidade de URLs efetivamente escalonadas.
 {
     erroAssert(hn != nullptr, "No de host invalido.");
     int amtEsc = 0;
+
     while (!hn->host.vazio() && amtEsc < quantidade)
     {
         this->arq_saida << hn->host.get_first_url()->url << std::endl;

@@ -37,6 +37,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
+    // Inicializando arquivos e objetos principais.
     std::string nome_entrada(argv[1]);
     std::ifstream arq_entrada;
     arq_entrada.open(nome_entrada, std::ifstream::in);
@@ -46,12 +47,15 @@ int main(int argc, char **argv)
 
     Escalonador escal(nome_saida);
     Comando com;
+
+    // Executando comandos
     while (arq_entrada >> com)
     {
         escal.executar_comando(com);
         com.destruir();
     }
 
+    // Encerrando execução do programa
     escal.destruir();
     arq_entrada.close();
 

@@ -15,7 +15,7 @@ URL::URL(std::string url)
     if (url_valido(url))
         this->url_string = this->url_tratado(url);
     else
-        throw std::invalid_argument("Url invalido fornecido.");
+        throw std::invalid_argument("URL invalido fornecido.");
 }
 
 std::string URL::as_string()
@@ -42,8 +42,8 @@ std::string URL::get_host_string()
 {
     erroAssert(this->url_string.length() >= 7,
                "Tamanho da URL pequeno demais para ter 'http://'.");
+    
     // Removendo "http://"
-
     std::string resposta = this->url_string.substr(7);
 
     // Removendo "www."
@@ -73,6 +73,7 @@ bool URL::operator>=(const URL &url)
         n_barras += (c == '/');
     for (char c : url.url_string)
         n_barras_arg += (c == '/');
+    
     return n_barras >= n_barras_arg;
 }
 
@@ -81,6 +82,8 @@ bool URL::url_valido(std::string url)
 // Entrada: string a verificar.
 // Saida: verdadeiro se a string é um URL válido, falso se não é.
 {
+    // Verificando se o URL possui "http://" e extensão válida se ignorarmos fragmento e "/"
+    // no final.
     bool http = url.substr(0, 7) == "http://";
     std::string url2 = this->remove_fragmento(url);
     bool ext_valida = this->extensao_valida(url);
@@ -110,6 +113,7 @@ bool URL::extensao_valida(std::string url_sem_fragmento)
 {
     erroAssert(url_sem_fragmento.find_first_of('#') == size_t(-1),
                "URL passado na verificacao de extensao possui fragmento");
+    
     int tamanho = url_sem_fragmento.size();
     if (url_sem_fragmento[url_sem_fragmento.size() - 1] == '/')
         url_sem_fragmento = url_sem_fragmento.substr(0, url_sem_fragmento.size() - 1);
@@ -131,6 +135,8 @@ std::string URL::remove_www(std::string url)
     erroAssert(url.length() >= 7,
                "Tamanho da URL pequeno demais para ter 'http://'.");
 
+    // Note que se a condição abaixo é satisfeita, temos pelo menos "http://www.", um total
+    // de 11 caracteres e portanto o método substr não gera erro.
     if (url.substr(7, 4) == "www.")
         return url.substr(0, 7) + url.substr(11);
     else
@@ -145,6 +151,7 @@ std::string URL::url_tratado(std::string url)
     std::string sem_fragmento = this->remove_fragmento(url);
     std::string sem_www = this->remove_www(sem_fragmento);
     std::string resposta;
+    
     if (sem_www[sem_www.size() - 1] == '/')
         resposta = sem_www.substr(0, sem_www.size() - 1);
     else

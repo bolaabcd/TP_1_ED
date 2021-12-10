@@ -36,10 +36,12 @@ void Fila_Hosts::add_host(Host host)
 // Entrada: host a ser colocado na fila.
 // Saida: nenhuma.
 {
+    // Note que ignoramos a re-adição de hosts já presentes, ao invés de gerar erro.
     if (this->get_host(host.base_string()) != nullptr)
     {
         return;
     }
+
     Host_Node *hn = this->no_frontal;
     if (hn == nullptr)
     {
@@ -71,13 +73,15 @@ void Fila_Hosts::remove_front_host()
 {
     Host_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
+
     primeiro->host.limpar();
     delete primeiro;
+    
     this->tamanho--;
 }
 
 Host_Node *Fila_Hosts::get_host(std::string host_string)
-// Descricao: obtém o nó correspondente ao host desejado.
+// Descricao: obtém o nó correspondente ao host desejado, via busca linear.
 // Entrada: string do host desejado.
 // Saida: nó do host em questão.
 {
@@ -108,6 +112,7 @@ void Fila_Hosts::remove_host(std::string host_string)
         else
         {
             hn_anterior->proximo = hn->proximo;
+            hn->host.limpar();
             delete hn;
         }
 

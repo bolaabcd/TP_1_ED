@@ -20,13 +20,15 @@ int Comando::get_id()
 std::string Comando::get_host()
 // Descricao: obtém o host do comando, caso seja um comando com argumento de host.
 // Entrada: nada.
-// Saida: string do host passado como argumento, erro se o comando não possui host como argumento.
+// Saida: string do host passado como argumento, erro se o comando não possui host como
+// argumento.
 {
     erroAssert(
         this->id_comando == 3 ||
             this->id_comando == 4 ||
             this->id_comando == 6,
         "O comando desejado nao possui host como argumento.");
+
     return this->host;
 }
 
@@ -36,6 +38,7 @@ bool Comando::more_urls()
 // Saida: verdadeiro se ainda há URLs, falso se não há.
 {
     erroAssert(this->id_comando == 0, "O comando desejado nao possui urls como argumento.");
+
     return this->atual_url_pos < this->quantidade;
 }
 
@@ -47,6 +50,7 @@ std::string Comando::get_url()
 {
     erroAssert(this->id_comando == 0, "O comando desejado nao possui urls como argumento.");
     erroAssert(this->more_urls(), "Nao ha mais URLs a serem lidos.");
+
     return *this->urls[this->atual_url_pos++];
 }
 
@@ -59,6 +63,7 @@ int Comando::get_quantidade()
         this->id_comando == 0 ||
             this->id_comando == 1,
         "O comando desejado nao possui quantidade como argumento.");
+
     return this->quantidade;
 }
 
@@ -69,8 +74,11 @@ std::istream &operator>>(std::istream &is, Comando &com)
 {
     std::string nome_comando;
     is >> nome_comando;
+
     if (is.eof() || !is.good())
         return is;
+
+    // Identifica o comando lido:
     if (nome_comando == "ADD_URLS")
         com.id_comando = 0;
     else if (nome_comando == "ESCALONA_TUDO")
@@ -93,6 +101,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
         abort();
     }
 
+    // Lê os argumentos do comando lido:
     switch (com.id_comando)
     {
     case 0: // add_urls
@@ -136,10 +145,11 @@ std::istream &operator>>(std::istream &is, Comando &com)
 }
 
 void Comando::destruir()
+// Descricao: libera o espaço possivelmente alocado para o objeto (aplicavel para o
+// comando ADD_URLs).
+// Entrada: nada.
+// Saida: nenhuma.
 {
-    // Descricao: libera o espaço possivelmente alocado para o objeto (aplicavel para o comando ADD_URLs).
-    // Entrada: nada.
-    // Saida: nenhuma.
     if (this->urls != nullptr)
     {
         for (int i = 0; i < this->quantidade; i++)

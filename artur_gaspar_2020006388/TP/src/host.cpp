@@ -46,24 +46,30 @@ void Host::add_url(URL url)
         return;
     }
 
+    // Encontrando o primeiro URL que vem depois do que queremos adicionar.
     while (un != nullptr && url >= un->url)
     {
+        // Evitando adicionar URLs duplicados.
         if (url.as_string() == un->url.as_string())
             return;
         anterior = un;
         un = un->proximo;
     }
 
+    // Caso em que o novo URL deve ser colocado depois do último.
     if (un == nullptr)
     {
+        // Evitando adicionar URLs duplicados.
         if (anterior->url.as_string() == url.as_string())
             return;
         anterior->proximo = new URL_Node(url);
     }
     else
     {
+        // Evitando adicionar URLs duplicados.
         if (un->url.as_string() == url.as_string())
             return;
+        // Caso que só tem um URL até o momento.
         if (anterior == nullptr)
         {
             URL_Node *seg = this->no_frontal;
@@ -94,7 +100,9 @@ void Host::remove_first_url()
 {
     URL_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
+
     delete primeiro;
+    
     this->tamanho--;
 }
 
