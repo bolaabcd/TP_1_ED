@@ -78,6 +78,7 @@ std::istream &operator>>(std::istream &is, Comando &com)
     {
     case 0: // add_urls
         is >> com.quantidade;
+        erroAssert(com.quantidade >= 0, "Quantidade de URLs a adicionar invalida.");
         com.urls = (std::string **)malloc(com.quantidade * sizeof(std::string*));
 
         for (int i = 0; i < com.quantidade; i++)
@@ -90,9 +91,11 @@ std::istream &operator>>(std::istream &is, Comando &com)
     case 1: // escalona_tudo
         break;
     case 2: // escalona
+        erroAssert(com.quantidade >= 0, "Quantidade de URLs a escalonar invalida.");
         is >> com.quantidade;
         break;
     case 3: // escalona_host
+        erroAssert(com.quantidade >= 0, "Quantidade de URLs a escalonar invalida.");
         is >> com.host >> com.quantidade;
         break;
     case 4: // ver_host

@@ -24,7 +24,7 @@ Fila_Hosts::Fila_Hosts()
 
 void Fila_Hosts::add_host(Host host)
 {
-    if (get_host(host.base_string()) != nullptr)
+    if (this->get_host(host.base_string()) != nullptr)
     {
         return;
     }

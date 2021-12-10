@@ -28,7 +28,10 @@ std::ostream &operator<<(std::ostream &os, URL const &url)
 
 std::string URL::get_host_string()
 {
+    erroAssert(this->url_string.length() >= 7,
+    "Tamanho da URL pequeno demais para ter 'http://'.");
     // Removendo "http://"
+    
     std::string resposta = this->url_string.substr(7);
 
     // Removendo "www."
@@ -59,7 +62,7 @@ bool URL::operator>=(const URL &url)
 }
 
 bool URL::url_valido(std::string url)
-{
+{    
     bool http = url.substr(0, 7) == "http://";
     std::string url2 = this->remove_fragmento(url);
     bool ext_valida = this->extensao_valida(url);
@@ -84,6 +87,8 @@ bool URL::extensao_valida(std::string url_sem_fragmento)
     int tamanho = url_sem_fragmento.size();
     if (url_sem_fragmento[url_sem_fragmento.size() - 1] == '/')
         url_sem_fragmento = url_sem_fragmento.substr(0, url_sem_fragmento.size() - 1);
+
+    erroAssert(tamanho-4 >=0, "Tamanho do url invalido (menor que 5).");
     std::string extensao = url_sem_fragmento.substr(tamanho - 4, 4);
     if (extensao == ".jpg" || extensao == ".gif" || extensao == ".mp3" ||
         extensao == ".avi" || extensao == ".doc" || extensao == ".pdf")
@@ -94,6 +99,9 @@ bool URL::extensao_valida(std::string url_sem_fragmento)
 
 std::string URL::remove_www(std::string url)
 {
+    erroAssert(url.length() >= 7,
+    "Tamanho da URL pequeno demais para ter 'http://'.");
+    
     if (url.substr(7, 4) == "www.")
         return url.substr(0, 7) + url.substr(11);
     else

@@ -89,6 +89,7 @@ int Escalonador::escalona_tudo()
 
 int Escalonador::escalona(int quantidade)
 {
+    erroAssert(quantidade >= 0, "Quantidade de urls a escalonar invalida.");
     Host_Node *hn = this->fila.get_front_host();
     int amtEsc = 0;
 
@@ -102,14 +103,17 @@ int Escalonador::escalona(int quantidade)
 
 int Escalonador::escalona_host(std::string host_string, int quantidade)
 {
+    erroAssert(quantidade >= 0, "Quantidade de URLs a escalonar invalida.");
     Host_Node *hn = this->fila.get_host(host_string);
     if (hn == nullptr)
         return 0;
-    return escalona_host_interno(hn, quantidade);
+    else
+        return escalona_host_interno(hn, quantidade);
 }
 
 int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
 {
+    erroAssert(hn != nullptr, "No de host invalido.");
     int amtEsc = 0;
     while (!hn->host.vazio() && amtEsc < quantidade)
     {
@@ -142,7 +146,9 @@ void Escalonador::lista_hosts()
 
 void Escalonador::limpa_host(std::string host_string)
 {
-    this->fila.get_host(host_string)->host.limpar();
+    Host_Node *no = this->fila.get_host(host_string); 
+    erroAssert(no != nullptr, "Host a ser limpo inexistente." );
+    no->host.limpar();
 }
 
 void Escalonador::limpa_tudo()

@@ -23,6 +23,7 @@ void uso()
 std::string get_nome_saida(std::string nome_entrada)
 {
     size_t pos_ext = nome_entrada.find_last_of('.');
+    erroAssert(pos_ext != size_t(-1), "Nome de entrada invalido por nao possuir extensao.");
     return nome_entrada.substr(0, pos_ext) + "-out" + nome_entrada.substr(pos_ext);
 }
 
