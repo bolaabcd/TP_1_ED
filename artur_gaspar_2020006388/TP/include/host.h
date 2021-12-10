@@ -28,6 +28,7 @@ public:
     void remove_first_url();
     bool vazio();
     void limpar();
+    ~Host();
 
 private:
     std::string host_string;

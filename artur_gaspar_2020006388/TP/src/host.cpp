@@ -7,11 +7,17 @@
 #include "host.h"
 
 URL_Node::URL_Node(URL url) : url(url)
+// Descricao: constrói um nó de URL.
+// Entrada: url a ser colocado no nó.
+// Saida: objeto instanciado.
 {
     this->proximo = nullptr;
 }
 
 Host::Host(std::string url)
+// Descricao: constrói Host.
+// Entrada: um url que pertence ao host a ser criado.
+// Saida: objeto instanciado.
 {
     this->host_string = URL(url).get_host_string();
     this->no_frontal = nullptr;
@@ -19,11 +25,17 @@ Host::Host(std::string url)
 }
 
 std::string Host::base_string()
+// Descricao: informa a string do host.
+// Entrada: nada.
+// Saida: string identificadora do host.
 {
     return this->host_string;
 }
 
 void Host::add_url(URL url)
+// Descricao: adiciona um URL ao host.
+// Entrada: URL a ser adicionado.
+// Saida: nada.
 {
     URL_Node *un = this->no_frontal;
     URL_Node *anterior = nullptr;
@@ -68,11 +80,17 @@ void Host::add_url(URL url)
 }
 
 URL_Node *Host::get_first_url()
+// Descricao: informa o nó do primeiro URL em relação à ordem utilizada.
+// Entrada: nada.
+// Saida: string identificadora do host.
 {
     return this->no_frontal;
 }
 
 void Host::remove_first_url()
+// Descricao: remove o primeiro URL em relação à ordem utilizada.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     URL_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
@@ -81,14 +99,28 @@ void Host::remove_first_url()
 }
 
 bool Host::vazio()
+// Descricao: informa se o Host ainda possui algum URL.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     return this->tamanho == 0;
 }
 
 void Host::limpar()
+// Descricao: remove todos URLs do host.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     while (!this->vazio())
     {
         this->remove_first_url();
     }
+}
+
+Host::~Host()
+// Descricao: destrutor padrão do tipo Host.
+// Entrada: nada.
+// Saida: nenhuma.
+{
+    this->limpar();
 }

@@ -7,22 +7,34 @@
 #include "fila_hosts.h"
 
 Host_Node::Host_Node(Host host) : host(host)
+// Descricao: constrói um nó de hosts.
+// Entrada: host a ser colocado no nó.
+// Saida: objeto instanciado.
 {
     this->proximo = nullptr;
 }
 
 Host_Node::~Host_Node()
+// Descricao: destrutor padrão de nó de hosts.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     this->host.limpar();
 }
 
 Fila_Hosts::Fila_Hosts()
+// Descricao: constrói uma fila de hosts.
+// Entrada: nada.
+// Saida: objeto instanciado.
 {
     this->no_frontal = nullptr;
     tamanho = 0;
 }
 
 void Fila_Hosts::add_host(Host host)
+// Descricao: adiciona um host à fila, caso já não esteja presente.
+// Entrada: host a ser colocado na fila.
+// Saida: nenhuma.
 {
     if (this->get_host(host.base_string()) != nullptr)
     {
@@ -45,11 +57,17 @@ void Fila_Hosts::add_host(Host host)
 }
 
 Host_Node *Fila_Hosts::get_front_host()
+// Descricao: obtém o primeiro host.
+// Entrada: nada.
+// Saida: primeiro host da fila.
 {
     return this->no_frontal;
 }
 
 void Fila_Hosts::remove_front_host()
+// Descricao: remove o primeiro host da fila.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     Host_Node *primeiro = this->no_frontal;
     this->no_frontal = this->no_frontal->proximo;
@@ -59,6 +77,9 @@ void Fila_Hosts::remove_front_host()
 }
 
 Host_Node *Fila_Hosts::get_host(std::string host_string)
+// Descricao: obtém o nó correspondente ao host desejado.
+// Entrada: string do host desejado.
+// Saida: nó do host em questão.
 {
     Host_Node *hn = this->no_frontal;
     while (hn != nullptr && hn->host.base_string() != host_string)
@@ -69,6 +90,9 @@ Host_Node *Fila_Hosts::get_host(std::string host_string)
 }
 
 void Fila_Hosts::remove_host(std::string host_string)
+// Descricao: remove um host da fila, se presente.
+// Entrada: host a ser retirado da fila.
+// Saida: nenhuma.
 {
     Host_Node *hn = this->no_frontal;
     Host_Node *hn_anterior = nullptr;
@@ -92,11 +116,17 @@ void Fila_Hosts::remove_host(std::string host_string)
 }
 
 bool Fila_Hosts::vazia()
+// Descricao: informa se a fila está vazia
+// Entrada: nada.
+// Saida: true se a fila está vazia, falso caso contrário.
 {
     return this->tamanho == 0;
 }
 
 void Fila_Hosts::clear()
+// Descricao: remove todos os hosts da fila.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     while (!vazia())
     {
@@ -105,6 +135,9 @@ void Fila_Hosts::clear()
 }
 
 Fila_Hosts::~Fila_Hosts()
+// Descricao: destrutor padrão da fila de hosts.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     this->clear();
 }

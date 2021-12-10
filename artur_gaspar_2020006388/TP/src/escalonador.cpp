@@ -10,12 +10,18 @@
 #include "url.h"
 
 Escalonador::Escalonador(std::string nome_saida)
+// Descricao: constrói o tipo escalonador a partir do arquivo de saída, que é aberto aqui.
+// Entrada: caminho do arquivo de saída.
+// Saida: objeto Escalonador instanciado.
 {
     this->arq_saida.open(nome_saida, std::ofstream::out);
     erroAssert(arq_saida.good(), "Nao foi possivel abrir o arquivo de saida!");
 }
 
 void Escalonador::executar_comando(Comando &com)
+// Descricao: executa um comando.
+// Entrada: objeto do tipo Comando representando o comando a ser executado.
+// Saida: depende do comando, alguns imprimem algo no arquivo de saída, outros só deletam URLs, por exemplo.
 {
     switch (com.get_id())
     {
@@ -58,17 +64,27 @@ void Escalonador::executar_comando(Comando &com)
     }
 }
 
-void Escalonador::destruir(){
+void Escalonador::destruir()
+// Descricao: fecha o arquivo de saída e limpa a fila de hosts.
+// Entrada: nada.
+// Saida: nenhuma.
+{
     this->arq_saida.close();
     this->limpa_tudo();
 }
 
 Escalonador::~Escalonador()
+// Descricao: destrutor padrão do tipo Escalonador.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     this->destruir();
 }
 
 void Escalonador::add_url(std::string url)
+// Descricao: executa o comando de adicionar URL.
+// Entrada: string correspondente à URL a ser adicionada.
+// Saida: nenhuma.
 {
     URL url_verificado(url);
     Host host_url = Host(url);
@@ -83,11 +99,17 @@ void Escalonador::add_url(std::string url)
 }
 
 int Escalonador::escalona_tudo()
+// Descricao: escalona todas as URLs presentes (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Entrada: nada.
+// Saida: quantidade de URLs escalonadas.
 {
     return this->escalona(INT32_MAX);
 }
 
 int Escalonador::escalona(int quantidade)
+// Descricao: escalona no máximo <quantidade> URLs (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Entrada: quantidade máxima a ser escalonada.
+// Saida: quantidade de URLs efetivamente escalonadas.
 {
     erroAssert(quantidade >= 0, "Quantidade de urls a escalonar invalida.");
     Host_Node *hn = this->fila.get_front_host();
@@ -102,6 +124,9 @@ int Escalonador::escalona(int quantidade)
 }
 
 int Escalonador::escalona_host(std::string host_string, int quantidade)
+// Descricao: escalona no máximo <quantidade> URLs do host (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Entrada: quantidade máxima a ser escalonada e string do host do qual devemos escalonar.
+// Saida: quantidade de URLs efetivamente escalonadas.
 {
     erroAssert(quantidade >= 0, "Quantidade de URLs a escalonar invalida.");
     Host_Node *hn = this->fila.get_host(host_string);
@@ -112,6 +137,9 @@ int Escalonador::escalona_host(std::string host_string, int quantidade)
 }
 
 int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
+// Descricao: escalona no máximo <quantidade> URLs do host do nó (imŕime em ordem no arquivod de saída e deleta do Escalonador).
+// Entrada: quantidade máxima a ser escalonada e nó do host cujas URLs devemos escalonar.
+// Saida: quantidade de URLs efetivamente escalonadas.
 {
     erroAssert(hn != nullptr, "No de host invalido.");
     int amtEsc = 0;
@@ -125,6 +153,9 @@ int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
 }
 
 void Escalonador::ver_host(std::string host_string)
+// Descricao: imprime todas URLs do host em ordem, mas não deleta.
+// Entrada: string do host em questão.
+// Saida: nenhuma.
 {
     URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
     while (un != nullptr)
@@ -135,6 +166,9 @@ void Escalonador::ver_host(std::string host_string)
 }
 
 void Escalonador::lista_hosts()
+// Descricao: imprime no arquivo de saída todos hosts em ordem.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     Host_Node *hn = this->fila.get_front_host();
     while (hn != nullptr)
@@ -145,13 +179,19 @@ void Escalonador::lista_hosts()
 }
 
 void Escalonador::limpa_host(std::string host_string)
+// Descricao: deleta todas URLs do host.
+// Entrada: nome do host em questão.
+// Saida: nenhuma.
 {
-    Host_Node *no = this->fila.get_host(host_string); 
-    erroAssert(no != nullptr, "Host a ser limpo inexistente." );
+    Host_Node *no = this->fila.get_host(host_string);
+    erroAssert(no != nullptr, "Host a ser limpo inexistente.");
     no->host.limpar();
 }
 
 void Escalonador::limpa_tudo()
+// Descricao: deleta todas URLs e hosts do Escalonador.
+// Entrada: nada.
+// Saida: nenhuma.
 {
     this->fila.clear();
 }

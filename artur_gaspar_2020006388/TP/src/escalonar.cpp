@@ -14,13 +14,15 @@ void uso()
 // Descricao: imprime as opcoes de uso
 // Entrada: nao tem
 // Saida: impressao das opcoes de linha de comando
-
 {
     std::cerr << "escalonador" << std::endl;
     std::cerr << "\t<arq>\t\t(nome do arquivo de entrada, argumento obrigatorio)" << std::endl;
 }
 
 std::string get_nome_saida(std::string nome_entrada)
+// Descricao: gera o nome do arquivo de saída.
+// Entrada: nome do arquivo de entrada.
+// Saida: nome do arquivo de saída.
 {
     size_t pos_ext = nome_entrada.find_last_of('.');
     erroAssert(pos_ext != size_t(-1), "Nome de entrada invalido por nao possuir extensao.");
