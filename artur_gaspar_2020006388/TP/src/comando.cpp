@@ -60,8 +60,8 @@ int Comando::get_quantidade()
 // Saida: a quantidade de URLs ainda não lidos.
 {
     erroAssert(
-        this->id_comando == 0 ||
-            this->id_comando == 1,
+        !(this->id_comando == 0 ||
+            this->id_comando == 1),
         "O comando desejado nao possui quantidade como argumento.");
 
     return this->quantidade;

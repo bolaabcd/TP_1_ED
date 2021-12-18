@@ -12,8 +12,19 @@
 #include "escalonador.h"
 #include "comando.h"
 
+
 // variavel globais para opcoes
 int regmem;
+
+void uso()
+// Descricao: imprime as opcoes de uso
+// Entrada: nao tem
+// Saida: impressao das opcoes de linha de comando
+{
+    std::cerr << "escalonador" << std::endl;
+    std::cerr << "\t<arq>\t\t(nome do arquivo de entrada, argumento obrigatorio, deve vir antes das opcoes)" << std::endl;
+    std::cerr << "\t-l \t\t(registrar padrao de acesso e localidade, opcional, deve vir depois de <arq>)" << std::endl;
+}
 
 void parse_args(int argc, char **argv)
 // Descricao: le as opcoes da linha de comando e inicializa variaveis.
@@ -27,15 +38,11 @@ void parse_args(int argc, char **argv)
     exit(1);
   }
 
-  // variavel externa do getopt
-  extern char *optarg;
-
   // variavel auxiliar
   int c;
 
   // inicializacao variaveis globais para opcoes
   regmem = 0;
-  bool p = false;
 
   // getopt - letra indica a opcao, : junto a letra indica parametro
   while ((c = getopt(argc, argv, "l")) != EOF)
@@ -51,17 +58,6 @@ void parse_args(int argc, char **argv)
       exit(1);
     }
   }
-}
-
-
-void uso()
-// Descricao: imprime as opcoes de uso
-// Entrada: nao tem
-// Saida: impressao das opcoes de linha de comando
-{
-    std::cerr << "escalonador" << std::endl;
-    std::cerr << "\t<arq>\t\t(nome do arquivo de entrada, argumento obrigatorio)" << std::endl;
-    std::cerr << "\t-l \t\t(registrar padrao de acesso e localidade)" << std::endl;
 }
 
 std::string get_nome_saida(std::string nome_entrada)
@@ -100,6 +96,8 @@ int main(int argc, char **argv)
 
     Escalonador escal(nome_saida);
     Comando com;
+
+    parse_args(argc, argv);
     
     // iniciar registro de acesso
     iniciaMemLog(get_nome_registro(nome_entrada),regmem);

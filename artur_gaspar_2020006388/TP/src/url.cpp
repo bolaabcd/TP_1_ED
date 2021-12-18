@@ -93,7 +93,7 @@ bool URL::url_valido(std::string url)
     // no final.
     bool http = url.substr(0, 7) == "http://";
     std::string url2 = this->remove_fragmento(url);
-    bool ext_valida = this->extensao_valida(url);
+    bool ext_valida = this->extensao_valida(url2);
 
     return http && ext_valida;
 }
@@ -119,7 +119,7 @@ bool URL::extensao_valida(std::string url_sem_fragmento)
 // Saida: falso se possui extensão inválida, verdadeiro caso contrário.
 {
     erroAssert(url_sem_fragmento.find_first_of('#') == size_t(-1),
-               "URL passado na verificacao de extensao possui fragmento");
+               "URL possui fragmento quando nao deveria.");
     
     int tamanho = url_sem_fragmento.size();
     if (url_sem_fragmento[url_sem_fragmento.size() - 1] == '/')
