@@ -6,14 +6,17 @@
 
 #include "url.h"
 #include "msgassert.h"
+#include "memlog.h"
 
 URL::URL(std::string url)
 // Descricao: constrói um URL a partir da string, se for válida.
 // Entrada: string do url a ser colocado no nó.
 // Saida: objeto instanciado.
 {
-    if (url_valido(url))
+    if (url_valido(url)){
         this->url_string = this->url_tratado(url);
+        escreveMemLog((long int)&this->url_string[0],this->url_string.length() * sizeof(char));
+    }
     else
         throw std::invalid_argument("URL invalido fornecido.");
 }
@@ -23,6 +26,7 @@ std::string URL::as_string()
 // Entrada: nada
 // Saida: string do URL, já tratado.
 {
+    leMemLog((long int)&this->url_string[0],this->url_string.length() * sizeof(char));
     return this->url_string;
 }
 
@@ -31,6 +35,7 @@ std::ostream &operator<<(std::ostream &os, URL const &url)
 // Entrada: ostream onde será escrito, e o URL a ser escrito.
 // Saida: ostream depois de ter o URL escrito.
 {
+    leMemLog((long int)&url.url_string[0],url.url_string.length() * sizeof(char));
     os << url.url_string;
     return os;
 }
@@ -45,6 +50,7 @@ std::string URL::get_host_string()
     
     // Removendo "http://"
     std::string resposta = this->url_string.substr(7);
+    leMemLog((long int)&this->url_string[0],this->url_string.length() * sizeof(char));
 
     // Removendo "www."
     if (resposta.substr(0, 4) == "www.")
@@ -73,6 +79,7 @@ bool URL::operator>=(const URL &url)
         n_barras += (c == '/');
     for (char c : url.url_string)
         n_barras_arg += (c == '/');
+    leMemLog((long int)&this->url_string[0],this->url_string.length() * sizeof(char));
     
     return n_barras >= n_barras_arg;
 }
