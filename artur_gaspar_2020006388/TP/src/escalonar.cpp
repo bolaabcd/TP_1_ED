@@ -86,36 +86,40 @@ int main(int argc, char **argv)
 // Entrada: argc e argv.
 // Saida: no arquivo especificado esqueve o resultado das operações especificadas.
 {
-    // Inicializando arquivos e objetos principais.
-    std::string nome_entrada(argv[1]);
-    std::ifstream arq_entrada;
-    arq_entrada.open(nome_entrada, std::ifstream::in);
-    erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
+  if(argc == 1) {
+    uso();
+    exit(1);
+  }
+  // Inicializando arquivos e objetos principais.
+  std::string nome_entrada(argv[1]);
+  std::ifstream arq_entrada;
+  arq_entrada.open(nome_entrada, std::ifstream::in);
+  erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
 
-    std::string nome_saida(get_nome_saida(nome_entrada));
+  std::string nome_saida(get_nome_saida(nome_entrada));
 
-    Escalonador escal(nome_saida);
-    Comando com;
+  Escalonador escal(nome_saida);
+  Comando com;
 
-    parse_args(argc, argv);
-    
-    // iniciar registro de acesso
-    iniciaMemLog(get_nome_registro(nome_entrada),regmem);
+  parse_args(argc, argv);
+  
+  // iniciar registro de acesso
+  iniciaMemLog(get_nome_registro(nome_entrada),regmem);
 
-    // ativar registro de acesso
-    ativaMemLog();
+  // ativar registro de acesso
+  ativaMemLog();
 
-    // Executando comandos
-    while (arq_entrada >> com)
-    {
-        escal.executar_comando(com);
-        com.destruir();
-    }
+  // Executando comandos
+  while (arq_entrada >> com)
+  {
+      escal.executar_comando(com);
+      com.destruir();
+  }
 
-    // Encerrando execução do programa
-    escal.destruir();
-    arq_entrada.close();
+  // Encerrando execução do programa
+  escal.destruir();
+  arq_entrada.close();
 
-    // conclui registro de acesso
-    return finalizaMemLog();
+  // conclui registro de acesso
+  return finalizaMemLog();
 }
