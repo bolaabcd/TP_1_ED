@@ -21,18 +21,23 @@ LIBS = -lm
 # Arquivos
 TARGET = $(BIN_FOLDER)/escalonar
 TARGET1 = $(BIN_FOLDER)/desafio1
+TARGET2 = $(BIN_FOLDER)/desafio2
 HDR_FILES = $(INCLUDE_FOLDER)/comando.h  $(INCLUDE_FOLDER)/escalonador.h $(INCLUDE_FOLDER)/fila_hosts.h $(INCLUDE_FOLDER)/host.h $(INCLUDE_FOLDER)/memlog.h $(INCLUDE_FOLDER)/msgassert.h $(INCLUDE_FOLDER)/url.h
 OBJ_FILES = $(OBJ_FOLDER)/comando.o $(OBJ_FOLDER)/escalonador.o $(OBJ_FOLDER)/fila_hosts.o $(OBJ_FOLDER)/host.o $(OBJ_FOLDER)/escalonar.o $(OBJ_FOLDER)/memlog.o $(OBJ_FOLDER)/url.o
 OBJ_FILES1 = $(OBJ_FOLDER)/comando.o $(OBJ_FOLDER)/escalonador_desafio1.o $(OBJ_FOLDER)/fila_hosts.o $(OBJ_FOLDER)/host.o $(OBJ_FOLDER)/escalonar.o $(OBJ_FOLDER)/memlog.o $(OBJ_FOLDER)/url.o
-#OBJ_FILES2 = 
+OBJ_FILES1 = $(OBJ_FOLDER)/comando.o $(OBJ_FOLDER)/escalonador_desafio2.o $(OBJ_FOLDER)/fila_hosts_desafio2.o $(OBJ_FOLDER)/host.o $(OBJ_FOLDER)/escalonar.o $(OBJ_FOLDER)/memlog.o $(OBJ_FOLDER)/url.o
 
-all: $(TARGET) $(TARGET1)
+
+all: $(TARGET) $(TARGET1) $(TARGET2)
 
 $(TARGET): $(OBJ_FILES)
 	$(CC) -o $(TARGET) $(LIBS) $(OBJ_FILES)
 
 $(TARGET1): $(OBJ_FILES1)
 	$(CC) -o $(TARGET1) $(LIBS) $(OBJ_FILES1)
+
+$(TARGET2): $(OBJ_FILES2)
+	$(CC) -o $(TARGET2) $(LIBS) $(OBJ_FILES2)
 
 $(OBJ_FOLDER)/comando.o: $(HDR_FILES) $(SRC_FOLDER)/comando.cpp
 	$(CC) $(CFLAGS) -o $(OBJ_FOLDER)/comando.o $(SRC_FOLDER)/comando.cpp 
@@ -59,4 +64,4 @@ $(OBJ_FOLDER)/url.o: $(HDR_FILES) $(SRC_FOLDER)/url.cpp
 	$(CC) $(CFLAGS) -o $(OBJ_FOLDER)/url.o $(SRC_FOLDER)/url.cpp 
 
 clean:
-	rm $(TARGET) $(TARGET1) $(OBJ_FILES) $(OBJ_FILES1)
+	rm $(TARGET) $(TARGET1) $(TARGET2) $(OBJ_FILES) $(OBJ_FOLDER)/escalonador_desafio1.o $(OBJ_FOLDER)/escalonador_desafio2.o $(OBJ_FOLDER)/fila_hosts_desafio2.o
