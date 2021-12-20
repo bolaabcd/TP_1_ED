@@ -95,9 +95,10 @@ bool URL::url_valido(std::string url)
     std::string url2 = this->remove_barras(url);
     url2 = this->remove_fragmento(url2);
     url2 = this->remove_barras(url2);
+    url2 = this->remove_www(url2);
     bool ext_valida = this->extensao_valida(url2);
 
-    return http && ext_valida && url.length() > 7;
+    return http && ext_valida && url2.length() > 7;
 }
 
 std::string URL::remove_fragmento(std::string url)
@@ -158,9 +159,10 @@ std::string URL::remove_www(std::string url)
 // Entrada: string de url.
 // Saida: string de url sem o "www.".
 {
-    erroAssert(url.length() >= 7,
+    avisoAssert(url.length() >= 7,
                "Tamanho da URL pequeno demais para ter 'http://'.");
-
+    if (url.length() < 7) 
+        return url;
     // Note que se a condição abaixo é satisfeita, temos pelo menos "http://www.", um total
     // de 11 caracteres e portanto o método substr não gera erro.
     if (url.substr(7, 4) == "www.")
