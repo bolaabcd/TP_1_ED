@@ -24,6 +24,7 @@ public:
     Host(std::string url);
     std::string base_string();
     void add_url(URL url);
+    int get_tamanho();
     URL_Node *get_first_url();
     void remove_first_url();
     bool vazio();

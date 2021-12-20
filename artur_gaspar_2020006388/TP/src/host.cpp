@@ -32,6 +32,14 @@ std::string Host::base_string()
     return this->host_string;
 }
 
+int Host::get_tamanho()
+// Descricao: informa a quantidade de urls.
+// Entrada: nada.
+// Saida: quantidade de URLs atualmente presentes no host.
+{
+    return this->tamanho;
+}
+
 void Host::add_url(URL url)
 // Descricao: adiciona um URL ao host.
 // Entrada: URL a ser adicionado.
