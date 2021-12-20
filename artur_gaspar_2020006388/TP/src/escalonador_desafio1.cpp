@@ -178,6 +178,11 @@ void Escalonador::ver_host(std::string host_string)
 // Entrada: string do host em questão.
 // Saida: nenhuma.
 {
+    Host_Node* hn = this->fila.get_host(host_string);
+    avisoAssert(hn != nullptr, "Host pedido inexistente! Ignorando comando.");
+    if(hn == nullptr)
+        return;
+    
     URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
     while (un != nullptr)
     {

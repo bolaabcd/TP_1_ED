@@ -46,7 +46,7 @@ std::string URL::get_host_string()
 // Saida: string correspondente ao host.
 {
     erroAssert(this->url_string.length() >= 7,
-               "Tamanho da URL pequeno demais para ter 'http://'.");
+               "Tamanho da URL pequeno demais para ter 'http://' e algo depois.");
     
     // Removendo "http://"
     std::string resposta = this->url_string.substr(7);
@@ -92,10 +92,12 @@ bool URL::url_valido(std::string url)
     // Verificando se o URL possui "http://" e extensão válida se ignorarmos fragmento e "/"
     // no final.
     bool http = url.substr(0, 7) == "http://";
-    std::string url2 = this->remove_fragmento(url);
+    std::string url2 = this->remove_barras(url);
+    url2 = this->remove_fragmento(url2);
+    url2 = this->remove_barras(url2);
     bool ext_valida = this->extensao_valida(url2);
 
-    return http && ext_valida;
+    return http && ext_valida && url.length() > 7;
 }
 
 std::string URL::remove_fragmento(std::string url)
@@ -109,6 +111,23 @@ std::string URL::remove_fragmento(std::string url)
             break;
         else
             newUrl += c;
+
+    return newUrl;
+}
+
+std::string URL::remove_barras(std::string url)
+// Descricao: remove as barras finais de uma string.
+// Entrada: string do url antes de remover possíveis barras finaiss.
+// Saida: string do url sem barras finais.
+{
+    std::string newUrl = "";
+    int i;
+    for (i = url.length()-1; i >= 0; i--)
+        if (url[i] != '/')
+            break;
+    for (int j = 0; j <= i; j++)
+        newUrl+= url[j];
+    
 
     return newUrl;
 }
@@ -155,7 +174,9 @@ std::string URL::url_tratado(std::string url)
 // Entrada: string de url a ser tratada.
 // Saida: string de url após tratamento.
 {
-    std::string sem_fragmento = this->remove_fragmento(url);
+    std::string sem_barras = this->remove_barras(url);
+    std::string sem_fragmento = this->remove_fragmento(sem_barras);
+    sem_fragmento = this->remove_barras(sem_fragmento);
     std::string sem_www = this->remove_www(sem_fragmento);
     std::string resposta;
     
