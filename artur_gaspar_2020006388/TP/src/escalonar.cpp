@@ -12,7 +12,6 @@
 #include "escalonador.h"
 #include "comando.h"
 
-
 // variavel globais para opcoes
 int regmem;
 
@@ -31,33 +30,33 @@ void parse_args(int argc, char **argv)
 // Entrada: argc e argv.
 // Saida: regmem.
 {
-  // tratando caso de nao ter argumentos
-  if (argc == 1)
-  {
-    uso();
-    exit(1);
-  }
-
-  // variavel auxiliar
-  int c;
-
-  // inicializacao variaveis globais para opcoes
-  regmem = 0;
-
-  // getopt - letra indica a opcao, : junto a letra indica parametro
-  while ((c = getopt(argc, argv, "l")) != EOF)
-  {
-    switch (c)
+    // tratando caso de nao ter argumentos
+    if (argc == 1)
     {
-    case 'l':
-      regmem = 1;
-      break;
-    case 'h':
-    default:
-      uso();
-      exit(1);
+        uso();
+        exit(1);
     }
-  }
+
+    // variavel auxiliar
+    int c;
+
+    // inicializacao variaveis globais para opcoes
+    regmem = 0;
+
+    // getopt - letra indica a opcao, : junto a letra indica parametro
+    while ((c = getopt(argc, argv, "l")) != EOF)
+    {
+        switch (c)
+        {
+        case 'l':
+            regmem = 1;
+            break;
+        case 'h':
+        default:
+            uso();
+            exit(1);
+        }
+    }
 }
 
 std::string get_nome_saida(std::string nome_entrada)
@@ -78,7 +77,6 @@ std::string get_nome_registro(std::string nome_entrada)
     size_t pos_ext = nome_entrada.find_last_of('.');
     erroAssert(pos_ext != size_t(-1), "Nome de entrada invalido por nao possuir extensao.");
     return nome_entrada.substr(0, pos_ext) + "-log" + nome_entrada.substr(pos_ext);
-
 }
 
 int main(int argc, char **argv)
@@ -86,40 +84,41 @@ int main(int argc, char **argv)
 // Entrada: argc e argv.
 // Saida: no arquivo especificado esqueve o resultado das operações especificadas.
 {
-  if(argc == 1) {
-    uso();
-    exit(1);
-  }
-  // Inicializando arquivos e objetos principais.
-  std::string nome_entrada(argv[1]);
-  std::ifstream arq_entrada;
-  arq_entrada.open(nome_entrada, std::ifstream::in);
-  erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
+    if (argc == 1)
+    {
+        uso();
+        exit(1);
+    }
+    // Inicializando arquivos e objetos principais.
+    std::string nome_entrada(argv[1]);
+    std::ifstream arq_entrada;
+    arq_entrada.open(nome_entrada, std::ifstream::in);
+    erroAssert(arq_entrada.good(), "Nao foi possivel abrir o arquivo de entrada!");
 
-  std::string nome_saida(get_nome_saida(nome_entrada));
+    std::string nome_saida(get_nome_saida(nome_entrada));
 
-  Escalonador escal(nome_saida);
-  Comando com;
+    Escalonador escal(nome_saida);
+    Comando com;
 
-  parse_args(argc, argv);
-  
-  // iniciar registro de acesso
-  iniciaMemLog(get_nome_registro(nome_entrada),regmem);
+    parse_args(argc, argv);
 
-  // ativar registro de acesso
-  ativaMemLog();
+    // iniciar registro de acesso
+    iniciaMemLog(get_nome_registro(nome_entrada), regmem);
 
-  // Executando comandos
-  while (arq_entrada >> com)
-  {
-      escal.executar_comando(com);
-      com.destruir();
-  }
+    // ativar registro de acesso
+    ativaMemLog();
 
-  // Encerrando execução do programa
-  escal.destruir();
-  arq_entrada.close();
+    // Executando comandos
+    while (arq_entrada >> com)
+    {
+        escal.executar_comando(com);
+        com.destruir();
+    }
 
-  // conclui registro de acesso
-  return finalizaMemLog();
+    // Encerrando execução do programa
+    escal.destruir();
+    arq_entrada.close();
+
+    // conclui registro de acesso
+    return finalizaMemLog();
 }

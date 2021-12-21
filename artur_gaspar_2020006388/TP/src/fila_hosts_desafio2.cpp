@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------
-// Arquivo      : fila_hosts.cpp
-// Conteudo     : implementacao do tipo Fila_Hosts
+// Arquivo      : fila_hosts_desafio2.cpp
+// Conteudo     : implementacao do tipo Fila_Hosts para desafio 2
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
 
-#include "fila_hosts.h"
+#include "fila_hosts_desafio2.h"
 
 Host_Node::Host_Node(Host host) : host(host)
 // Descricao: constrói um nó de hosts.
@@ -28,6 +28,7 @@ Fila_Hosts::Fila_Hosts()
 // Saida: objeto instanciado.
 {
     this->no_frontal = nullptr;
+    this->no_frontal_inalterado = nullptr;
     tamanho = 0;
 }
 
@@ -36,13 +37,12 @@ void Fila_Hosts::add_host(Host host)
 // Entrada: host a ser colocado na fila.
 // Saida: nenhuma.
 {
+    add_host_fila_fixa(host);
     // Note que ignoramos a re-adição de hosts já presentes, ao invés de gerar erro.
     if (this->get_host(host.base_string()) != nullptr)
     {
         return;
     }
-
-    int tamanho = host.get_tamanho();
 
     Host_Node *hn = this->no_frontal;
     if (hn == nullptr)
@@ -51,7 +51,7 @@ void Fila_Hosts::add_host(Host host)
     }
     else
     {
-        while (hn->proximo != nullptr && hn->proximo->host.get_tamanho() <= tamanho)
+        while (hn->proximo != nullptr)
         {
             hn = hn->proximo;
         }
@@ -60,12 +60,39 @@ void Fila_Hosts::add_host(Host host)
     this->tamanho++;
 }
 
+void Fila_Hosts::add_host_fila_fixa(Host host)
+{
+    Host_Node *hn = this->no_frontal_inalterado;
+    if (hn == nullptr)
+    {
+        this->no_frontal_inalterado = new Host_Node(host);
+    }
+    else
+    {
+        while (hn->proximo != nullptr)
+        {
+            hn = hn->proximo;
+        }
+        hn->proximo = new Host_Node(host);
+    }
+}
+
 Host_Node *Fila_Hosts::get_front_host()
 // Descricao: obtém o primeiro host.
 // Entrada: nada.
 // Saida: primeiro host da fila.
 {
     return this->no_frontal;
+}
+
+Host_Node *Fila_Hosts::get_front_host_fixo()
+{
+    return no_frontal_inalterado;
+}
+
+void Fila_Hosts::set_front_host(Host_Node *hn)
+{
+    this->no_frontal = hn;
 }
 
 void Fila_Hosts::remove_front_host()
@@ -93,6 +120,11 @@ Host_Node *Fila_Hosts::get_host(std::string host_string)
         hn = hn->proximo;
     }
     return hn;
+}
+
+int Fila_Hosts::get_tamanho()
+{
+    return this->tamanho;
 }
 
 void Fila_Hosts::remove_host(std::string host_string)
@@ -138,6 +170,12 @@ void Fila_Hosts::clear()
     while (!vazia())
     {
         remove_front_host();
+        Host_Node *hn = this->no_frontal_inalterado;
+        while (hn->proximo != nullptr)
+        {
+            hn->host.limpar();
+            hn = hn->proximo;
+        }
     }
 }
 

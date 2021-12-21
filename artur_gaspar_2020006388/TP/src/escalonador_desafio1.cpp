@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------
-// Arquivo      : escalona.cpp
-// Conteudo     : implementacao do tipo Escalona
+// Arquivo      : escalonador_desafio1.cpp
+// Conteudo     : implementacao do tipo Escalona para desafio 1
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
 

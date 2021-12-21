@@ -1,9 +1,10 @@
 //---------------------------------------------------------------------
-// Arquivo      : escalona.cpp
+// Arquivo      : escalonador_desafio2.cpp
 // Conteudo     : implementacao do tipo Escalona
 // Autor        : Artur Gaspar da Silva (artur.gaspar@dcc.ufmg.br)
 //---------------------------------------------------------------------
 
+#include "fila_hosts_desafio2.h"
 #include "escalonador.h"
 #include "msgassert.h"
 #include "host.h"
@@ -83,6 +84,49 @@ Escalonador::~Escalonador()
     this->destruir();
 }
 
+void reordenar(Fila_Hosts &fila)
+{
+    bool moveu_algo = true;
+    while (moveu_algo)
+    {
+        Host_Node *hn = fila.get_front_host();
+        Host_Node *hant = hn;
+        hn = hn->proximo;
+        if (hant == nullptr || hn == nullptr)
+            break;
+        Host_Node *hantant = hant;
+        hant = hn;
+        hn = hn->proximo;
+        moveu_algo = false;
+        if (hantant->host.get_tamanho() < hant->host.get_tamanho())
+        {
+            hantant->proximo = hn;
+            hant->proximo = hantant;
+            Host_Node *temp = hant;
+            hant = hantant;
+            hantant = temp;
+            fila.set_front_host(hantant);
+            moveu_algo = true;
+        }
+        while (hn != nullptr)
+        {
+            if (hant->host.get_tamanho() < hn->host.get_tamanho())
+            {
+                hantant->proximo = hn;
+                hant->proximo = hn->proximo;
+                hn->proximo = hant;
+                Host_Node *temp = hn;
+                hn = hant;
+                hant = temp;
+                moveu_algo = true;
+            }
+            hantant = hant;
+            hant = hn;
+            hn = hn->proximo;
+        }
+    }
+}
+
 void Escalonador::add_url(std::string url)
 // Descricao: executa o comando de adicionar URL.
 // Entrada: string correspondente à URL a ser adicionada.
@@ -100,6 +144,7 @@ void Escalonador::add_url(std::string url)
         hostPointer = this->fila.get_host(host_url.base_string());
     }
     hostPointer->host.add_url(url_verificado);
+    reordenar(this->fila);
 }
 
 int Escalonador::escalona_tudo()
@@ -125,13 +170,14 @@ int Escalonador::escalona(int quantidade)
 
     // Escalona cada um dos hosts em ordem, até a quantidade atingir o quanto queremos,
     // ou os URLs presentes acabarem.
+    while (hn != nullptr && hn->host.get_tamanho() == 0)
+        hn = hn->proximo;
     while (hn != nullptr && amtEsc < quantidade)
     {
         amtEsc += this->escalona_host_interno(hn, 1);
-        Host primeiro_anterior = hn->host;
-        this->fila.remove_front_host();
-        this->fila.add_host(primeiro_anterior);
         hn = this->fila.get_front_host();
+        while (hn != nullptr && hn->host.get_tamanho() == 0)
+            hn = hn->proximo;
     }
     return amtEsc;
 }
@@ -166,6 +212,7 @@ int Escalonador::escalona_host_interno(Host_Node *hn, int quantidade)
         hn->host.remove_first_url();
         amtEsc++;
     }
+    reordenar(this->fila);
     return amtEsc;
 }
 
@@ -174,11 +221,11 @@ void Escalonador::ver_host(std::string host_string)
 // Entrada: string do host em questão.
 // Saida: nenhuma.
 {
-    Host_Node* hn = this->fila.get_host(host_string);
+    Host_Node *hn = this->fila.get_host(host_string);
     avisoAssert(hn != nullptr, "Host pedido inexistente! Ignorando comando.");
-    if(hn == nullptr)
+    if (hn == nullptr)
         return;
-    
+
     URL_Node *un = this->fila.get_host(host_string)->host.get_first_url();
     while (un != nullptr)
     {
@@ -192,7 +239,7 @@ void Escalonador::lista_hosts()
 // Entrada: nada.
 // Saida: nenhuma.
 {
-    Host_Node *hn = this->fila.get_front_host();
+    Host_Node *hn = this->fila.get_front_host_fixo();
     while (hn != nullptr)
     {
         this->arq_saida << hn->host.base_string() << std::endl;
